@@ -8,7 +8,6 @@ export const getDrivers = ({ location, date, carType }) => async (dispatch) => {
 	const body = JSON.stringify({ location, date, carType });
 
 	try {
-		console.log(location, carType, date);
 		const res = await axios.get('api/bookers/searchDrivers', {
 			params: {
 				location,

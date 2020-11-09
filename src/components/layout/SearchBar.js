@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { APP_KEY, APP_ID } from './../../dev';
 import places from 'places.js';
@@ -11,27 +11,27 @@ export const SearchBar = ({ getDrivers }) => {
 	const [date, setDate] = useState();
 	const [typeOfUser, setTypeOfUser] = useState();
 
-	const setLocationFinder = () => {
-		const fixedOptions = {
-			appId: APP_ID,
-			apiKey: APP_KEY,
-			container: '#location',
-		};
-		const reconfigurableOptions = {
-			language: 'eu',
-			countries: ['ca'], // Search in the Canada
-			aroundLatLngViaIP: false, // disable the extra search/boost around the source IP
-			type: 'city',
-			useDeviceLocation: false,
-		};
-		const placesAutoComplete = places(fixedOptions).configure(
-			reconfigurableOptions
-		);
-	};
+	// const setLocationFinder = () => {
+	// 	const fixedOptions = {
+	// 		appId: APP_ID,
+	// 		apiKey: APP_KEY,
+	// 		container: '#location',
+	// 	};
+	// 	const reconfigurableOptions = {
+	// 		language: 'eu',
+	// 		countries: ['ca'], // Search in the Canada
+	// 		aroundLatLngViaIP: false, // disable the extra search/boost around the source IP
+	// 		type: 'city',
+	// 		useDeviceLocation: false,
+	// 	};
+	// 	const placesAutoComplete = places(fixedOptions).configure(
+	// 		reconfigurableOptions
+	// 	);
+	// };
 	useEffect(() => {
-		setLocationFinder();
+		// setLocationFinder();
 		getDrivers({ location, carType, date });
-	}, []);
+	}, [location, carType, date]);
 
 	let updateFilters = (e) => {
 		switch (e.target.name) {
