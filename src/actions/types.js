@@ -1,0 +1,4 @@
+export const SET_MESSAGE = 'SET_MESSAGE';
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
+export const GET_DRIVERS_SUCCESS = 'GET_DRIVERS';
+export const GET_DRIVERS_FAIL = 'GET_DRIVERS_FAIL';

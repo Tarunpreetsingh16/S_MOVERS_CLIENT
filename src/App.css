@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 62.5%;
+	font-family: 'Montserrat', sans-serif;
+}
+/*CSS for HTML Tags*/
+ul {
+	list-style: none;
+	font-size: 2.5rem;
+	font-weight: 500;
+}
+h1 {
+	font-size: 2rem;
+}
+li {
+	margin: auto 1rem;
+}
+input,
+input[type='text'],
+select {
+	border-radius: 0.5rem;
+	border: 1px solid black;
+}
+/*CSS classes*/
+.colorLightBlue {
+	background-color: #6ea4eb;
+}
+.container {
+	padding: 2rem;
+}
+.flexDisplay {
+	display: flex;
+}
+.flexDisplayColumn {
+	display: flex;
+	flex-direction: column;
+}
+.justifySpaceBetween {
+	justify-content: space-between;
+}
+.justifyCenter {
+	justify-content: center;
+}
+.colorWhite {
+	color: white;
+}
+.alignItemsCenter {
+	align-items: center;
+}
+.pointer {
+	cursor: pointer;
+}
+.btn {
+	background-color: white;
+	padding: 1rem 1.5rem;
+	border-radius: 1rem;
+	transition: all 0.5s ease-in;
+}
+.btn:hover {
+	cursor: pointer;
+	background-color: black;
+	color: white;
+}
+.fontSize2_5 {
+	font-size: 2.5rem !important;
+}
+.fontSize1_5 {
+	font-size: 1.5rem !important;
+}
+.fontWeight200 {
+	font-weight: 200 !important;
+}
+.fontWeight400 {
+	font-weight: 400 !important;
+}
+.fontWeight500 {
+	font-weight: 500 !important;
+}
+.margin2 {
+	margin: 2rem;
+}
+.padding2 {
+	padding: 2rem;
+}
+.padding1 {
+	padding: 1rem !important;
+}
+.flexWrap {
+	flex-wrap: wrap;
+}
+.ap-name,
+.ap-name em {
+	font-size: 1.5rem;
+}
+/*CSS IDs*/
+/*Keyframes for Animations*/
+/*Media queries*/
