@@ -3,12 +3,12 @@ import React, { Fragment } from 'react';
 export const NavBar = () => {
 	return (
 		<Fragment>
-			<section className=' colorLightBlue container flexDisplay justifySpaceBetween alignItemsCenter'>
+			<section className='padding2 colorLightBlue flexDisplay justifySpaceBetween alignItemsCenter'>
 				<h1 className='colorWhite'>S_MOVERS</h1>
 				<div>
-					<ul className='flexDisplay alignItemsCenter'>
+					<ul className='flexDisplay alignItemsCenter fontSize2_5'>
 						<li className='pointer'>Sign Up</li>
-						<li className='btn btn-success'>Login</li>
+						<li className='btn btn-white'>Login</li>
 					</ul>
 				</div>
 			</section>

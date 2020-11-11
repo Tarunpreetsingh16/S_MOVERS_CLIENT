@@ -1,55 +1,37 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { APP_KEY, APP_ID } from './../../dev';
-import places from 'places.js';
 import PropTypes from 'prop-types';
+import { vehicleTypes } from './../../lib/vehicleTypes';
 //Redux
 import { getDrivers } from './../../actions/drivers';
+
 export const SearchBar = ({ getDrivers }) => {
 	const [location, setLocation] = useState();
 	const [carType, setCarType] = useState();
 	const [date, setDate] = useState();
-	const [typeOfUser, setTypeOfUser] = useState();
+	const [typeOfUser, setTypeOfUser] = useState('driver');
 
-	// const setLocationFinder = () => {
-	// 	const fixedOptions = {
-	// 		appId: APP_ID,
-	// 		apiKey: APP_KEY,
-	// 		container: '#location',
-	// 	};
-	// 	const reconfigurableOptions = {
-	// 		language: 'eu',
-	// 		countries: ['ca'], // Search in the Canada
-	// 		aroundLatLngViaIP: false, // disable the extra search/boost around the source IP
-	// 		type: 'city',
-	// 		useDeviceLocation: false,
-	// 	};
-	// 	const placesAutoComplete = places(fixedOptions).configure(
-	// 		reconfigurableOptions
-	// 	);
-	// };
 	useEffect(() => {
-		// setLocationFinder();
-		getDrivers({ location, carType, date });
-	}, [location, carType, date]);
+		let newLocation;
+		if (location) newLocation = location.trim();
+		else newLocation = null;
+		getDrivers({ location: newLocation, carType, date });
+	}, [location, carType, date, getDrivers]);
 
 	let updateFilters = (e) => {
+		console.log(e);
 		switch (e.target.name) {
 			case 'location':
 				setLocation(e.target.value);
-				getDrivers({ location, carType, date });
 				break;
 			case 'carType':
 				setCarType(e.target.value);
-				getDrivers({ location, carType, date });
 				break;
 			case 'date':
 				setDate(e.target.value);
-				getDrivers({ location, carType, date });
 				break;
 			case 'typeOfUser':
 				setTypeOfUser(e.target.value);
-				getDrivers({ location, carType, date });
 				break;
 			default:
 				return;
@@ -57,7 +39,7 @@ export const SearchBar = ({ getDrivers }) => {
 	};
 	return (
 		<Fragment>
-			<section className='container flexDisplay justifyCenter flexWrap alignItemsCenter'>
+			<section className='flexDisplay justifyCenter flexWrap alignItemsCenter'>
 				<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 					<label htmlFor='location' className='fontWeight500 padding1'>
 						Location
@@ -80,26 +62,15 @@ export const SearchBar = ({ getDrivers }) => {
 						className='padding1'
 						onChange={updateFilters}
 					>
-						<option
-							className='fontSize1_5'
-							disabled
-							defaultValue
-							selected={true}
-						>
-							-- select an option --
-						</option>
-						<option value='hatchback' className='fontSize1_5'>
-							Hatchback
-						</option>
-						<option value='sedan' className='fontSize1_5'>
-							Sedan
-						</option>
-						<option value='truck' className='fontSize1_5'>
-							Pickup Truck
-						</option>
-						<option value='suv' className='fontSize1_5'>
-							SUV
-						</option>
+						{vehicleTypes.map((vehicleType) => (
+							<option
+								key={vehicleType.value}
+								value={vehicleType.value}
+								className='fontSize1_5'
+							>
+								{vehicleType.label}
+							</option>
+						))}
 					</select>
 				</div>
 				<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
@@ -140,11 +111,20 @@ export const SearchBar = ({ getDrivers }) => {
 					</label>
 				</div>
 			</section>
+			<h4
+				className='fontSize1_5'
+				style={{ display: 'inline-block', margin: '2rem auto' }}
+			>
+				Available {typeOfUser}s
+			</h4>
 		</Fragment>
 	);
 };
-
+/*Proptypes is used to do the type checking as the application will get bigger it will be 
+a good option to check the type of the props that we are gonna use in the components */
 SearchBar.propTypes = {
 	getDrivers: PropTypes.func.isRequired,
 };
+/*connect to connect this component to redux and pass null as first parameter as we do not want any state updates 
+second parameter is use to dispatch an action */
 export default connect(null, { getDrivers })(SearchBar);

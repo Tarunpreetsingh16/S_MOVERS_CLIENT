@@ -9,7 +9,6 @@
 /*CSS for HTML Tags*/
 ul {
 	list-style: none;
-	font-size: 2.5rem;
 	font-weight: 500;
 }
 h1 {
@@ -28,8 +27,15 @@ select {
 .colorLightBlue {
 	background-color: #6ea4eb;
 }
-.container {
-	padding: 2rem;
+.cardContainer {
+	margin: 2rem auto;
+	border: 3px solid #6ea4eb;
+	border-radius: 1rem;
+	width: 50%;
+	line-height: 3rem;
+}
+.shadow {
+	box-shadow: 0rem 0rem 1rem grey;
 }
 .flexDisplay {
 	display: flex;
@@ -54,30 +60,44 @@ select {
 	cursor: pointer;
 }
 .btn {
-	background-color: white;
 	padding: 1rem 1.5rem;
 	border-radius: 1rem;
-	transition: all 0.5s ease-in;
+	transition: all 0.2s ease-in;
+	border: 0;
 }
 .btn:hover {
 	cursor: pointer;
+}
+.btn-white {
+	background-color: white;
+}
+.btn-white:hover {
 	background-color: black;
 	color: white;
 }
+
+.btn-theme {
+	background-color: #6ea4eb;
+}
+.btn-theme:hover {
+	border: 2px solid #6ea4eb;
+	background-color: white;
+	color: #6ea4eb;
+}
 .fontSize2_5 {
-	font-size: 2.5rem !important;
+	font-size: 2.5rem;
 }
 .fontSize1_5 {
-	font-size: 1.5rem !important;
+	font-size: 1.5rem;
 }
 .fontWeight200 {
-	font-weight: 200 !important;
+	font-weight: 200;
 }
 .fontWeight400 {
-	font-weight: 400 !important;
+	font-weight: 400;
 }
 .fontWeight500 {
-	font-weight: 500 !important;
+	font-weight: 500;
 }
 .margin2 {
 	margin: 2rem;
@@ -86,7 +106,7 @@ select {
 	padding: 2rem;
 }
 .padding1 {
-	padding: 1rem !important;
+	padding: 1rem;
 }
 .flexWrap {
 	flex-wrap: wrap;
