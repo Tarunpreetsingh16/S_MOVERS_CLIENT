@@ -1,20 +1,32 @@
 import './App.css';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import NavBar from './components/layout/NavBar';
-import Card from './components/layout/DriverCard';
+import Alert from './components/layout/Alert';
 import Landing from './components/layout/Landing';
+import SignUp from './components/auth/SignUp';
+import Login from './components/auth/Login';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link,
+	withRouter,
+} from 'react-router-dom';
 //Redux
-import { Provider } from 'react-redux';
-import store from './store';
 
 const App = () => {
 	return (
-		<Provider store={store}>
+		<Router>
 			<Fragment>
+				<Alert />
 				<NavBar />
-				<Landing />
+				<Switch>
+					<Route exact path='/' component={withRouter(Landing)} />
+					<Route exact path='/signUp' component={SignUp} />
+					<Route exact path='/login' component={Login} />
+				</Switch>
 			</Fragment>
-		</Provider>
+		</Router>
 	);
 };
 export default App;

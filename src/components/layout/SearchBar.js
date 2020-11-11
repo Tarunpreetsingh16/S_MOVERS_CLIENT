@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { vehicleTypes } from './../../lib/vehicleTypes';
@@ -19,7 +19,6 @@ export const SearchBar = ({ getDrivers }) => {
 	}, [location, carType, date, getDrivers]);
 
 	let updateFilters = (e) => {
-		console.log(e);
 		switch (e.target.name) {
 			case 'location':
 				setLocation(e.target.value);

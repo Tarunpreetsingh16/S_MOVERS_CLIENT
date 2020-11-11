@@ -1,3 +1,4 @@
+/*Reducer - Alert - Contains reducer for alert actions */
 import { SET_MESSAGE, REMOVE_MESSAGE } from './../actions/types';
 const initialState = [];
 
@@ -7,7 +8,7 @@ export default (state = initialState, action) => {
 		case SET_MESSAGE:
 			return [...state, payload];
 		case REMOVE_MESSAGE:
-			return state.filter((alert) => alert.id !== payload);
+			return state.filter((alert) => alert.id != payload);
 		default:
 			return state;
 	}

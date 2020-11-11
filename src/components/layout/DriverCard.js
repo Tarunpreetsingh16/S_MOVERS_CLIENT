@@ -1,3 +1,4 @@
+/*Driver Card- Component used to display the available drivers available in the system*/
 import React, { Fragment } from 'react';
 import star from './../../images/star.png';
 

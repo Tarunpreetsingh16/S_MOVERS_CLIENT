@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
 export const SignUp = () => {
-	return <div>Login</div>;
+	return <div>SignUp</div>;
 };
 export default SignUp;

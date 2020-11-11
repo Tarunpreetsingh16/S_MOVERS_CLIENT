@@ -2,3 +2,5 @@ export const SET_MESSAGE = 'SET_MESSAGE';
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 export const GET_DRIVERS_SUCCESS = 'GET_DRIVERS';
 export const GET_DRIVERS_FAIL = 'GET_DRIVERS_FAIL';
+export const SIGNUP_SUCCESS = 'LOGIN_SUCCESS';
+export const SIGNUP_FAIL = 'LOGIN_FAIL';
