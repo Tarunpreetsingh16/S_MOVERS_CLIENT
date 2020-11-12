@@ -4,17 +4,18 @@ const initialState = {
 	token: localStorage.getItem('jwt'),
 	user: null,
 	isAuthenticated: false,
+	errors: [],
 };
 
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case SIGNUP_SUCCESS:
-			console.log(payload);
-			return state;
+			localStorage.setItem('jwt', payload.token);
+			return { ...state, isAuthenticated: true, errors: [] };
 		case SIGNUP_FAIL:
-			console.log(payload);
-			return state;
+			localStorage.removeItem('jwt');
+			return { ...state, isAuthenticated: false, errors: [...payload] };
 		default:
 			return state;
 	}

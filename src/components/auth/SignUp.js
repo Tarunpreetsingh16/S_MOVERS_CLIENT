@@ -1,13 +1,66 @@
-import React, { Fragment, useState } from 'react';
-
+import React, { Fragment, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { cities } from './../../lib/servicableAreas';
 import { vehicleTypes } from './../../lib/vehicleTypes';
+import { signUp } from './../../actions/auth';
+//Redux
+import { connect } from 'react-redux';
+export const SignUp = ({ signUp, errors }) => {
+	const [formData, setFormData] = useState({
+		typeOfUser: 'booker',
+		email: '',
+		name: '',
+		password: '',
+		confirmPassword: '',
+		location: 'toronto',
+		carType: 'suv',
+		rate: '',
+		drivingExperience: '',
+		licenseIssuedDate: '',
+	});
 
-export const SignUp = () => {
-	const [typeOfUser, setTypeOfUser] = useState('booker');
+	const [messages, setMessages] = useState({
+		email: '',
+		name: '',
+		password: '',
+		confirmPassword: '',
+		rate: '',
+		drivingExperience: '',
+	});
+	const messagesHack = {
+		email: '',
+		name: '',
+		password: '',
+		confirmPassword: '',
+		rate: '',
+		drivingExperience: '',
+	};
+	/*Display errors accordingly */
+	if (errors) {
+		errors.filter((error) => {
+			const messageBox = document.getElementById(error.param).nextSibling;
+			messagesHack[error.param] = error.msg;
+			messageBox.classList.add('displayBlock');
+			messageBox.classList.add('padding0_5');
+		});
+	}
+
+	useEffect(() => {
+		setMessages(messagesHack);
+	}, [errors]);
 	/*method to update the state of typeOfUser to show the sign up form accordingly */
-	const updateTypeOfuser = (e) => {
-		setTypeOfUser(e.target.value);
+	const updateData = (e) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+	const submitForm = (e) => {
+		e.preventDefault();
+		const messageBoxes = document.querySelectorAll('h5');
+		let i = 0;
+		for (i = 0; i < messageBoxes.length; i++) {
+			messageBoxes[i].classList.remove('displayNone');
+			messageBoxes[i].classList.remove('padding0_5');
+		}
+		signUp(formData);
 	};
 	/*Fields that shoule be displayed for the driver */
 	const carType = (
@@ -15,11 +68,18 @@ export const SignUp = () => {
 			<label htmlFor='carType' className='fontWeight500 padding1'>
 				Car Type
 			</label>
-			<select name='carType' id='carType' className='padding1'>
+			<select
+				name='carType'
+				id='carType'
+				className='padding1'
+				value={formData.carType}
+				onChange={updateData}
+			>
 				{vehicleTypes.map((vehicleType) => (
 					<option
 						key={vehicleType.value}
 						value={vehicleType.value}
+						name='carType'
 						className='fontSize1_5'
 						disabled={vehicleType.disabled}
 					>
@@ -31,16 +91,20 @@ export const SignUp = () => {
 	);
 	const drivingExp = (
 		<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-			<label htmlFor='experience' className='fontWeight500 padding1'>
+			<label htmlFor='drivingExperience' className='fontWeight500 padding1'>
 				Driving Experience
 			</label>
 			<input
 				type='number'
-				name='experience'
-				id='experience'
+				name='drivingExperience'
+				id='drivingExperience'
 				className='padding1'
+				onChange={updateData}
 				required
 			></input>
+			<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+				{messages.drivingExperience}
+			</h5>
 		</div>
 	);
 	/*Fields that should be displayed for the helper */
@@ -51,7 +115,13 @@ export const SignUp = () => {
 				<label htmlFor='location' className='fontWeight500 padding1'>
 					Location
 				</label>
-				<select name='location' id='location' className='padding1'>
+				<select
+					name='location'
+					id='location'
+					className='padding1'
+					value={formData.location}
+					onChange={updateData}
+				>
 					{cities.map((city) => {
 						return (
 							<option
@@ -59,6 +129,7 @@ export const SignUp = () => {
 								value={city.value}
 								className='fontSize1_5'
 								disabled={city.disabled}
+								name='location'
 							>
 								{city.label}
 							</option>
@@ -66,7 +137,7 @@ export const SignUp = () => {
 					})}
 				</select>
 			</div>
-			{/*Car Type */ typeOfUser == 'driver' && carType}
+			{/*Car Type */ formData.typeOfUser === 'driver' && carType}
 			{/*Rate*/}
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='rate' className='fontWeight500 padding1'>
@@ -79,10 +150,14 @@ export const SignUp = () => {
 					className='padding1'
 					required
 					placeholder='20/hr'
+					onChange={updateData}
 				></input>
+				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+					{messages.rate}
+				</h5>
 			</div>
 
-			{/*Driving experience*/ typeOfUser == 'driver' && drivingExp}
+			{/*Driving experience*/ formData.typeOfUser === 'driver' && drivingExp}
 		</div>
 	);
 	const commonFields = (
@@ -97,8 +172,12 @@ export const SignUp = () => {
 					name='email'
 					id='email'
 					className='padding1'
+					onChange={updateData}
 					required
 				></input>
+				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+					{messages.email}
+				</h5>
 			</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='name' className='fontWeight500 padding1'>
@@ -108,9 +187,13 @@ export const SignUp = () => {
 					type='text'
 					name='name'
 					id='name'
+					onChange={updateData}
 					className='padding1'
 					required
 				></input>
+				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+					{messages.name}
+				</h5>
 			</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='password' className='fontWeight500 padding1'>
@@ -120,9 +203,13 @@ export const SignUp = () => {
 					type='password'
 					name='password'
 					id='password'
+					onChange={updateData}
 					className='padding1'
 					required
 				></input>
+				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+					{messages.password}
+				</h5>
 			</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='name' className='fontWeight500 padding1'>
@@ -133,13 +220,19 @@ export const SignUp = () => {
 					name='confirmPassword'
 					id='confirmPassword'
 					className='padding1'
+					onChange={updateData}
 					required
 				></input>
+				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+					{messages.confirmPassword}
+				</h5>
 			</div>
 			{
 				/*Conditional display fo the sign up fields based on the type of user
 			selected*/
-				(typeOfUser == 'helper' || typeOfUser == 'driver') && driverHelperCommon
+				(formData.typeOfUser === 'helper' ||
+					formData.typeOfUser === 'driver') &&
+					driverHelperCommon
 			}
 			<div className='fieldSet fontSize2_5 padding2'>
 				<input
@@ -147,7 +240,7 @@ export const SignUp = () => {
 					name='typeOfUser'
 					className='padding1'
 					value='booker'
-					onClick={updateTypeOfuser}
+					onChange={updateData}
 					defaultChecked
 				></input>
 				<label htmlFor='booker' className='fontWeight500 padding1'>
@@ -157,7 +250,7 @@ export const SignUp = () => {
 					type='radio'
 					name='typeOfUser'
 					className='padding1'
-					onClick={updateTypeOfuser}
+					onChange={updateData}
 					value='driver'
 				></input>
 				<label htmlFor='driver' className='fontWeight500 padding1'>
@@ -167,7 +260,7 @@ export const SignUp = () => {
 					type='radio'
 					name='typeOfUser'
 					className='padding1'
-					onClick={updateTypeOfuser}
+					onChange={updateData}
 					value='helper'
 				></input>
 				<label htmlFor='helper' className='fontWeight500 padding1'>
@@ -177,11 +270,17 @@ export const SignUp = () => {
 			<div className='padding2'>
 				<input
 					type='submit'
+					onClick={submitForm}
 					className='btn padding2 fontSize1_5 btn-theme width50'
+					value='Submit'
 				></input>
 			</div>
 		</form>
 	);
 	return <Fragment>{commonFields}</Fragment>;
 };
-export default SignUp;
+SignUp.propTypes = {
+	signUp: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({ errors: state.auth.errors });
+export default connect(mapStateToProps, { signUp })(SignUp);

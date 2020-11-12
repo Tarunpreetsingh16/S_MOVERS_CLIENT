@@ -35,8 +35,6 @@ it to the component as props and use the value of it to dynamically update the d
 */
 const mapStateToProps = (state) => ({ drivers: state.drivers });
 
-AvailableDrivers.propTypes = {};
-
 /*We use connect() to connect any component that we want to use with redux
 1st parameter is maptStateToProps which states the state values that we want to use in this component */
 export default connect(mapStateToProps)(AvailableDrivers);

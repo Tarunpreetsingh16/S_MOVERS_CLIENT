@@ -25,15 +25,30 @@ li {
 input,
 input[type='text'],
 select {
-	border-radius: 0.5rem;
-	border: 1px solid black;
+	box-shadow: 0.5rem 0.5rem 2rem grey;
+	border: 0;
 }
 /*CSS classes*/
+.padding0_5 {
+	padding: 0.5rem;
+}
+.margin1_0 {
+	margin: 1rem 0;
+}
+.displayNone {
+	display: none;
+}
+.displayBlock {
+	display: block;
+}
 .center {
 	margin: 0 auto;
 }
 .colorLightBlue {
 	background-color: #6ea4eb;
+}
+.colorDanger {
+	background-color: #ff6666;
 }
 .width50 {
 	width: 50%;
