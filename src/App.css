@@ -11,6 +11,11 @@ ul {
 	list-style: none;
 	font-weight: 500;
 }
+form {
+	width: 300px;
+	margin: 2rem auto;
+}
+
 h1 {
 	font-size: 2rem;
 }
@@ -24,8 +29,14 @@ select {
 	border: 1px solid black;
 }
 /*CSS classes*/
+.center {
+	margin: 0 auto;
+}
 .colorLightBlue {
 	background-color: #6ea4eb;
+}
+.width50 {
+	width: 50%;
 }
 .cardContainer {
 	margin: 2rem auto;
@@ -52,6 +63,9 @@ select {
 }
 .colorWhite {
 	color: white;
+}
+.colorBlack {
+	color: black;
 }
 .alignItemsCenter {
 	align-items: center;

@@ -88,7 +88,7 @@ export const SearchBar = ({ getDrivers }) => {
 					<input
 						type='radio'
 						name='typeOfUser'
-						id='date'
+						id='typeOfUser'
 						className='padding1'
 						value='driver'
 						defaultChecked
@@ -100,7 +100,7 @@ export const SearchBar = ({ getDrivers }) => {
 					<input
 						type='radio'
 						name='typeOfUser'
-						id='date'
+						id='typeOfUser'
 						className='padding1'
 						value='helper'
 						onChange={updateFilters}
