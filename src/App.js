@@ -9,24 +9,31 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
 	withRouter,
 } from 'react-router-dom';
 //Redux
+import { loadUser } from './actions/auth';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const App = () => {
+	useEffect(() => {
+		store.dispatch(loadUser(location.pathname));
+	}, []);
 	return (
-		<Router>
-			<Fragment>
-				<Alert />
-				<NavBar />
-				<Switch>
-					<Route exact path='/' component={withRouter(Landing)} />
-					<Route exact path='/signUp' component={SignUp} />
-					<Route exact path='/login' component={Login} />
-				</Switch>
-			</Fragment>
-		</Router>
+		<Provider store={store}>
+			<Router>
+				<Fragment>
+					<Alert />
+					<NavBar />
+					<Switch>
+						<Route exact path='/' component={withRouter(Landing)} />
+						<Route exact path='/signUp' component={SignUp} />
+						<Route exact path='/login' component={Login} />
+					</Switch>
+				</Fragment>
+			</Router>
+		</Provider>
 	);
 };
 export default App;

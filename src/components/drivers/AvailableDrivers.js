@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Card as DriverCard } from './../layout/DriverCard';
-import PropTypes from 'prop-types';
 
 export const AvailableDrivers = ({ drivers }) => {
 	const driversNested = drivers.drivers;

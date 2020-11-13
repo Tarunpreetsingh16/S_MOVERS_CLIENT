@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { cities } from './../../lib/servicableAreas';
 import { vehicleTypes } from './../../lib/vehicleTypes';
-import { signUp } from './../../actions/auth';
+import { signUp, loadUser } from './../../actions/auth';
 //Redux
 import { connect } from 'react-redux';
-export const SignUp = ({ signUp, errors }) => {
+export const SignUp = ({ signUp, errors, loadUser }) => {
+	const location = useLocation();
 	const [formData, setFormData] = useState({
 		typeOfUser: 'booker',
 		email: '',
@@ -16,7 +18,7 @@ export const SignUp = ({ signUp, errors }) => {
 		carType: 'suv',
 		rate: '',
 		drivingExperience: '',
-		licenseIssuedDate: '',
+		licenseIssuedDate: '00/00/0000',
 	});
 
 	const [messages, setMessages] = useState({
@@ -41,26 +43,35 @@ export const SignUp = ({ signUp, errors }) => {
 			const messageBox = document.getElementById(error.param).nextSibling;
 			messagesHack[error.param] = error.msg;
 			messageBox.classList.add('displayBlock');
+			messageBox.classList.remove('displayNone');
 			messageBox.classList.add('padding0_5');
 		});
 	}
 
 	useEffect(() => {
 		setMessages(messagesHack);
-	}, [errors]);
+	}, [errors, location.pathname]);
+
+	const removeMessageBoxes = () => {
+		let i = 0;
+		const messageBoxes = document.querySelectorAll('h5');
+		for (i = 0; i < messageBoxes.length; i++) {
+			messageBoxes[i].classList.remove('displayBlock');
+			messageBoxes[i].classList.add('displayNone');
+			messageBoxes[i].classList.remove('padding0_5');
+		}
+	};
 	/*method to update the state of typeOfUser to show the sign up form accordingly */
 	const updateData = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const submitForm = (e) => {
 		e.preventDefault();
-		const messageBoxes = document.querySelectorAll('h5');
-		let i = 0;
-		for (i = 0; i < messageBoxes.length; i++) {
-			messageBoxes[i].classList.remove('displayNone');
-			messageBoxes[i].classList.remove('padding0_5');
-		}
+		//remove any errors before sumitting the form
+		removeMessageBoxes();
+		//call the signup action by sending form data
 		signUp(formData);
+		loadUser(location.pathname);
 	};
 	/*Fields that shoule be displayed for the driver */
 	const carType = (
@@ -212,7 +223,7 @@ export const SignUp = ({ signUp, errors }) => {
 				</h5>
 			</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-				<label htmlFor='name' className='fontWeight500 padding1'>
+				<label htmlFor='confirmPassword' className='fontWeight500 padding1'>
 					Confirm Password
 				</label>
 				<input
@@ -235,6 +246,9 @@ export const SignUp = ({ signUp, errors }) => {
 					driverHelperCommon
 			}
 			<div className='fieldSet fontSize2_5 padding2'>
+				<label className='fontWeight500 padding1 displayBlock'>
+					Type of Account
+				</label>
 				<input
 					type='radio'
 					name='typeOfUser'
@@ -281,6 +295,7 @@ export const SignUp = ({ signUp, errors }) => {
 };
 SignUp.propTypes = {
 	signUp: PropTypes.func.isRequired,
+	loadUser: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({ errors: state.auth.errors });
-export default connect(mapStateToProps, { signUp })(SignUp);
+export default connect(mapStateToProps, { signUp, loadUser })(SignUp);
