@@ -18,13 +18,11 @@ import store from './store';
 const App = () => {
 	useEffect(() => {
 		store.dispatch(loadUser());
-		return <Redirect to='/signUp' />;
 	}, []);
 	return (
 		<Provider store={store}>
 			<Router>
 				<Fragment>
-					<Alert />
 					<NavBar />
 					<Switch>
 						<Route exact path='/' component={Landing} />

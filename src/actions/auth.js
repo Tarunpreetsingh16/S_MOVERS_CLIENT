@@ -4,6 +4,9 @@ import {
 	CLEAR_ERRORS,
 	AUTH_ERROR,
 	LOAD_USER,
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
+	LOGOUT_USER,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
 import axios from 'axios';
@@ -65,7 +68,66 @@ export const signUp = (userData) => async (dispatch) => {
 		});
 	}
 };
+/*Action - login - To login a user using the details provided from the form
+ */
+export const login = (userData) => async (dispatch) => {
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+	try {
+		let res;
+		if (userData.typeOfUser === 'booker')
+			res = await axios.post('/api/bookers/login', userData, config);
+		else if (userData.typeOfUser === 'driver')
+			res = await axios.post('/api/drivers/login', userData, config);
+		else if (userData.typeOfUser === 'helper')
+			res = await axios.post('/api/helpers/login', userData, config);
+		dispatch({
+			type: LOGIN_SUCCESS,
+			payload: {
+				data: res.data,
+				typeOfUser: userData.typeOfUser,
+			},
+		});
+	} catch (err) {
+		dispatch({
+			type: LOGIN_FAIL,
+			payload: err.response.data.errors,
+		});
+	} finally {
+		return new Promise((resolve) => {
+			resolve(true);
+		});
+	}
+};
 
+/*Action - logout - To logout a user from the system*/
+export const logout = () => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		setAuthToken(localStorage.jwt);
+	}
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+	try {
+		let res;
+		res = await axios.get('/api/bookers/logout', null, config);
+		if (res.data.logout) {
+			dispatch({
+				type: LOGOUT_USER,
+			});
+		}
+	} catch (err) {
+	} finally {
+		return new Promise((resolve) => {
+			resolve(true);
+		});
+	}
+};
 export const clearErrors = () => (dispatch) => {
 	dispatch({
 		type: CLEAR_ERRORS,

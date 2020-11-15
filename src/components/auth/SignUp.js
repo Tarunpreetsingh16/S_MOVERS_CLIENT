@@ -5,7 +5,7 @@ import { vehicleTypes } from './../../lib/vehicleTypes';
 import { signUp, loadUser } from './../../actions/auth';
 //Redux
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
 		typeOfUser: 'booker',
@@ -61,11 +61,11 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	};
 	/*method to update the state of typeOfUser to show the sign up form accordingly */
 	const updateData = (e) => {
-		hideErrors();
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const submitForm = (e) => {
 		e.preventDefault();
+		hideErrors();
 		//call the signup action by sending form data
 		signUp(formData).then(() => {
 			loadUser();
@@ -300,8 +300,8 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	);
 };
 SignUp.propTypes = {
-	signUp: PropTypes.func.isRequired,
 	loadUser: PropTypes.func.isRequired,
+	signUp: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
 	errors: state.auth.errors,
