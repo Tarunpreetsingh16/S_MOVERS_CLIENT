@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
 import { clearErrors } from './../../actions/auth';
-export const Login = ({ clearErrors }) => {
-	clearErrors();
+export const Login = () => {
 	return (
 		<Fragment>
 			<form className='flexDisplayColumn'>
@@ -34,6 +33,39 @@ export const Login = ({ clearErrors }) => {
 						required
 					></input>
 					<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'></h5>
+				</div>
+				<div className='fieldSet fontSize2_5 padding2'>
+					<label className='fontWeight500 padding1 displayBlock'>
+						Type of Account
+					</label>
+					<input
+						type='radio'
+						name='typeOfUser'
+						className='padding1'
+						value='booker'
+						defaultChecked
+					></input>
+					<label htmlFor='booker' className='fontWeight500 padding1'>
+						Booker
+					</label>
+					<input
+						type='radio'
+						name='typeOfUser'
+						className='padding1'
+						value='driver'
+					></input>
+					<label htmlFor='driver' className='fontWeight500 padding1'>
+						Driver
+					</label>
+					<input
+						type='radio'
+						name='typeOfUser'
+						className='padding1'
+						value='helper'
+					></input>
+					<label htmlFor='helper' className='fontWeight500 padding1'>
+						Helper
+					</label>
 				</div>
 				<div className='padding2'>
 					<input

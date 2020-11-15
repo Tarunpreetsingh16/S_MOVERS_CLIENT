@@ -1,13 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
 import { cities } from './../../lib/servicableAreas';
 import { vehicleTypes } from './../../lib/vehicleTypes';
 import { signUp, loadUser } from './../../actions/auth';
 //Redux
 import { connect } from 'react-redux';
-export const SignUp = ({ signUp, errors, loadUser }) => {
-	const location = useLocation();
+import { Route, Redirect } from 'react-router-dom';
+export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
 		typeOfUser: 'booker',
 		email: '',
@@ -18,9 +17,8 @@ export const SignUp = ({ signUp, errors, loadUser }) => {
 		carType: 'suv',
 		rate: '',
 		drivingExperience: '',
-		licenseIssuedDate: '00/00/0000',
+		licenseIssuedDate: Date.now(),
 	});
-
 	const [messages, setMessages] = useState({
 		email: '',
 		name: '',
@@ -37,25 +35,25 @@ export const SignUp = ({ signUp, errors, loadUser }) => {
 		rate: '',
 		drivingExperience: '',
 	};
-	/*Display errors accordingly */
-	if (errors) {
-		errors.filter((error) => {
-			const messageBox = document.getElementById(error.param).nextSibling;
-			messagesHack[error.param] = error.msg;
-			messageBox.classList.add('displayBlock');
-			messageBox.classList.remove('displayNone');
-			messageBox.classList.add('padding0_5');
-		});
-	}
-
 	useEffect(() => {
+		if (errors) {
+			errors.map((error) => {
+				if (document.getElementById(error.param)) {
+					const messageBox = document.getElementById(error.param).nextSibling;
+					messagesHack[error.param] = error.msg;
+					messageBox.classList.add('displayBlock');
+					messageBox.classList.remove('displayNone');
+					messageBox.classList.add('padding0_5');
+				}
+			});
+		}
 		setMessages(messagesHack);
-	}, [errors, location.pathname]);
+	}, [errors]);
 
-	const removeMessageBoxes = () => {
-		let i = 0;
+	const hideErrors = () => {
 		const messageBoxes = document.querySelectorAll('h5');
-		for (i = 0; i < messageBoxes.length; i++) {
+		let i = 0;
+		for (; i < messageBoxes.length; i++) {
 			messageBoxes[i].classList.remove('displayBlock');
 			messageBoxes[i].classList.add('displayNone');
 			messageBoxes[i].classList.remove('padding0_5');
@@ -63,15 +61,15 @@ export const SignUp = ({ signUp, errors, loadUser }) => {
 	};
 	/*method to update the state of typeOfUser to show the sign up form accordingly */
 	const updateData = (e) => {
+		hideErrors();
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const submitForm = (e) => {
 		e.preventDefault();
-		//remove any errors before sumitting the form
-		removeMessageBoxes();
 		//call the signup action by sending form data
-		signUp(formData);
-		loadUser(location.pathname);
+		signUp(formData).then(() => {
+			loadUser();
+		});
 	};
 	/*Fields that shoule be displayed for the driver */
 	const carType = (
@@ -291,11 +289,22 @@ export const SignUp = ({ signUp, errors, loadUser }) => {
 			</div>
 		</form>
 	);
-	return <Fragment>{commonFields}</Fragment>;
+	return (
+		<Fragment>
+			{
+				/*Check  if the user has been loaded into the system*/
+				isAuthenticated && <Redirect to='/' />
+			}
+			{commonFields}
+		</Fragment>
+	);
 };
 SignUp.propTypes = {
 	signUp: PropTypes.func.isRequired,
 	loadUser: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({ errors: state.auth.errors });
+const mapStateToProps = (state) => ({
+	errors: state.auth.errors,
+	isAuthenticated: state.auth.isAuthenticated,
+});
 export default connect(mapStateToProps, { signUp, loadUser })(SignUp);

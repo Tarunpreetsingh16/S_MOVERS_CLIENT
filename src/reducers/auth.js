@@ -16,7 +16,12 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case LOAD_USER:
-			return { ...state, isAuthenticated: true, user: payload };
+			return {
+				...state,
+				token: payload.token,
+				isAuthenticated: true,
+				user: payload.user,
+			};
 		case SIGNUP_SUCCESS:
 			localStorage.setItem('jwt', payload.data.token);
 			localStorage.setItem('typeOfUser', payload.typeOfUser);
@@ -24,11 +29,16 @@ export default (state = initialState, action) => {
 		case SIGNUP_FAIL:
 			localStorage.removeItem('jwt');
 			localStorage.removeItem('typeOfUser');
-			return { ...state, isAuthenticated: false, errors: [...payload] };
+			return {
+				...state,
+				isAuthenticated: false,
+				user: null,
+				errors: [...payload],
+			};
 		case AUTH_ERROR:
 			localStorage.removeItem('jwt');
 			localStorage.removeItem('typeOfUser');
-			return { ...state, isAuthenticated: false, user: null, errors: null };
+			return { ...state, isAuthenticated: false, user: null };
 		case CLEAR_ERRORS:
 			return { ...state, errors: null };
 		default:

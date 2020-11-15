@@ -10,8 +10,7 @@ import axios from 'axios';
 
 /*Action - loadUser- To laod the a user using the token received stored
  */
-export const loadUser = (path) => async (dispatch) => {
-	console.log(path);
+export const loadUser = () => async (dispatch) => {
 	if (localStorage.jwt && localStorage.typeOfUser) {
 		setAuthToken(localStorage.jwt);
 	}
@@ -23,10 +22,9 @@ export const loadUser = (path) => async (dispatch) => {
 			res = await axios.get('/api/auth/2');
 		else if (localStorage.typeOfUser === 'helper')
 			res = await axios.get('/api/auth/3');
-
 		dispatch({
 			type: LOAD_USER,
-			payload: res.data,
+			payload: { token: localStorage.jwt, user: res.data },
 		});
 	} catch (err) {
 		dispatch({
@@ -56,6 +54,9 @@ export const signUp = (userData) => async (dispatch) => {
 				data: res.data,
 				typeOfUser: userData.typeOfUser,
 			},
+		});
+		return new Promise((resolve) => {
+			resolve(true);
 		});
 	} catch (err) {
 		dispatch({
