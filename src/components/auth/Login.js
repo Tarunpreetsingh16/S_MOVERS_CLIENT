@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Loader from './../layout/Loader';
 //React Router
 import { Redirect } from 'react-router-dom';
 //Redux
@@ -7,6 +8,7 @@ import { connect } from 'react-redux';
 import { login, loadUser } from './../../actions/auth';
 
 export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
+	const [loading, setLoading] = useState(true);
 	/*State to store the form data which is updated on data change  */
 	const [formData, setFormData] = useState({
 		typeOfUser: 'booker',
@@ -24,6 +26,11 @@ export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
 		password: '',
 		notFound: '',
 	};
+
+	if (isAuthenticated) {
+		document.getElementById('form').disabled = true;
+		setTimeout(() => setLoading(false), 3000);
+	}
 
 	useEffect(() => {
 		if (loginErrors) {
@@ -63,7 +70,7 @@ export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
 		});
 	};
 	const form = (
-		<form className='flexDisplayColumn'>
+		<form className='flexDisplayColumn' id='form'>
 			<div className='fontSize2_5 padding1'>Login</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='email' className='fontWeight500 padding1'>
@@ -151,9 +158,10 @@ export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
 	);
 	return (
 		<Fragment>
+			{isAuthenticated && <Loader />}
 			{
 				/*Check  if the user has been loaded into the system*/
-				isAuthenticated && <Redirect to='/' />
+				isAuthenticated && !loading && <Redirect to='/' />
 			}
 			{form}
 		</Fragment>

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { cities } from './../../lib/servicableAreas';
 import { vehicleTypes } from './../../lib/vehicleTypes';
 import { signUp, loadUser } from './../../actions/auth';
+import Loader from './../layout/Loader';
 //Redux
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
+	const [loading, setLoading] = useState(true);
+	/*State to store the form data which is updated on data change  */
 	const [formData, setFormData] = useState({
 		typeOfUser: 'booker',
 		email: '',
@@ -19,6 +22,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 		drivingExperience: '',
 		licenseIssuedDate: Date.now(),
 	});
+	/*State to store the errors which are updated on form submission  */
 	const [messages, setMessages] = useState({
 		email: '',
 		name: '',
@@ -35,6 +39,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 		rate: '',
 		drivingExperience: '',
 	};
+
 	useEffect(() => {
 		if (errors) {
 			errors.map((error) => {
@@ -47,8 +52,13 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 				}
 			});
 		}
+
+		if (isAuthenticated) {
+			document.getElementById('form').disabled = true;
+			setTimeout(() => setLoading(false), 3000);
+		}
 		setMessages(messagesHack);
-	}, [errors]);
+	}, [errors, isAuthenticated]);
 
 	const hideErrors = () => {
 		const messageBoxes = document.querySelectorAll('h5');
@@ -170,7 +180,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 		</div>
 	);
 	const commonFields = (
-		<form className='flexDisplayColumn'>
+		<form className='flexDisplayColumn' id='form'>
 			<div className='fontSize2_5 padding1'>Sign Up</div>
 			<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 				<label htmlFor='email' className='fontWeight500 padding1'>
@@ -291,9 +301,10 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	);
 	return (
 		<Fragment>
+			{isAuthenticated && <Loader />}
 			{
 				/*Check  if the user has been loaded into the system*/
-				isAuthenticated && <Redirect to='/' />
+				isAuthenticated && !loading && <Redirect to='/' />
 			}
 			{commonFields}
 		</Fragment>

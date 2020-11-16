@@ -145,5 +145,40 @@ select {
 	font-size: 1.5rem;
 }
 /*CSS IDs*/
+#spinnerContainer {
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+#spinner {
+	height: 2rem;
+	width: 20rem;
+	position: relative;
+	background-color: #6ea4eb;
+	box-shadow: 0rem 0rem 4rem white;
+}
+#spinner::before {
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 2rem;
+	left: 0;
+	top: 0;
+	box-shadow: 0rem 0rem 4rem black;
+	background-color: white;
+	animation: swipeEffect 0.5s infinite;
+}
 /*Keyframes for Animations*/
+
+@keyframes swipeEffect {
+	0% {
+		transform: translate(0px, 0px);
+	}
+	100% {
+		transform: translate(19rem, 0px);
+	}
+}
 /*Media queries*/

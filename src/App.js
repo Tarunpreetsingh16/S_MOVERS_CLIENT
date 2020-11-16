@@ -5,6 +5,7 @@ import Alert from './components/layout/Alert';
 import Landing from './components/layout/Landing';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
+import { Profile as BookerProfile } from './components/bookers/Profile';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -28,6 +29,7 @@ const App = () => {
 						<Route exact path='/' component={Landing} />
 						<Route exact path='/signUp' component={SignUp} />
 						<Route exact path='/login' component={Login} />
+						<Route exact path='/booker/profile' component={BookerProfile} />
 					</Switch>
 				</Fragment>
 			</Router>
