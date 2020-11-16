@@ -8,12 +8,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 export const NavBar = ({ isAuthenticated, logout, user }) => {
 	const userName = useMemo(() => {
-		console.log(isAuthenticated, user);
 		if (isAuthenticated && user) {
 			return user.name;
 		}
 	}, [isAuthenticated, user]);
-	console.log(userName);
 	const logoutAndRedirect = () => {
 		logout();
 	};
@@ -22,14 +20,14 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 		<ul className='flexDisplay alignItemsCenter fontSize2_5'>
 			<Link
 				to='/signUp'
-				className='fontSize2_5'
+				className='fontSize2_5 navBarLinks'
 				style={{ textDecoration: 'none' }}
 			>
 				<li className='colorWhite'>Sign Up</li>
 			</Link>
 			<Link
 				to='/login'
-				className='fontSize2_5'
+				className='fontSize2_5 navBarLinks'
 				style={{ textDecoration: 'none' }}
 			>
 				<li className='btn btn-white colorBlack'>Login</li>
@@ -40,19 +38,26 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 	/*Fields to show in the navbar when the user is logged in */
 	const loggedIn = (
 		<ul className='flexDisplay alignItemsCenter fontSize2_5'>
-			<div className='fontSize2_5' style={{ textDecoration: 'none' }}>
+			<div
+				id='userName'
+				className='fontSize2_5 navBarLinks'
+				style={{ textDecoration: 'none' }}
+			>
 				<li className='colorWhite'>
 					Welcome <em className='fontSize1_5'>{userName}</em>
 				</li>
 			</div>
 			<Link
 				to={profileLinkTo}
-				className='fontSize2_5 colorWhite'
+				className='fontSize2_5 colorWhite navBarLinks'
 				style={{ textDecoration: 'none' }}
 			>
 				<li className=''>Profile</li>
 			</Link>
-			<div className='fontSize2_5 pointer' style={{ textDecoration: 'none' }}>
+			<div
+				className='fontSize2_5 pointer navBarLinks'
+				style={{ textDecoration: 'none' }}
+			>
 				<li className='btn btn-white colorBlack' onClick={logoutAndRedirect}>
 					Logout
 				</li>
@@ -64,7 +69,7 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 			{!isAuthenticated && <Redirect to='/' />}
 			<section className='padding2 colorLightBlue flexDisplay justifySpaceBetween alignItemsCenter'>
 				<Link to='/' className='fontSize2_5' style={{ textDecoration: 'none' }}>
-					<h1 className='colorWhite'>S_MOVERS</h1>
+					<h1 className='colorWhite navBarLinks'>S_MOVERS</h1>
 				</Link>
 				<div>{isAuthenticated ? loggedIn : notLoggedIn}</div>
 			</section>

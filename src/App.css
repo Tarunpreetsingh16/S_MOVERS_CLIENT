@@ -85,6 +85,9 @@ select {
 .alignItemsCenter {
 	align-items: center;
 }
+.alignItemsStart {
+	align-items: flex-start;
+}
 .pointer {
 	cursor: pointer;
 }
@@ -112,6 +115,15 @@ select {
 	border: 2px solid #6ea4eb;
 	background-color: white;
 	color: #6ea4eb;
+}
+.btn-danger {
+	background-color: red;
+	color: white;
+}
+.btn-danger:hover {
+	border: 2px solid red;
+	background-color: white;
+	color: red;
 }
 .fontSize2_5 {
 	font-size: 2.5rem;
@@ -144,6 +156,9 @@ select {
 .ap-name em {
 	font-size: 1.5rem;
 }
+.borderTesting {
+	border: 1px solid black;
+}
 /*CSS IDs*/
 #spinnerContainer {
 	height: 100vh;
@@ -171,6 +186,13 @@ select {
 	background-color: white;
 	animation: swipeEffect 0.5s infinite;
 }
+#userImage {
+	width: 20rem;
+	height: auto;
+}
+#userImage img {
+	width: inherit;
+}
 /*Keyframes for Animations*/
 
 @keyframes swipeEffect {
@@ -182,3 +204,35 @@ select {
 	}
 }
 /*Media queries*/
+@media only screen and (max-width: 1500px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 992px) {
+}
+/*for landscpae tablets*/
+@media only screen and (max-width: 768px) {
+}
+/* for portrait tablets and large phones*/
+@media only screen and (max-width: 600px) {
+	.updateForm,
+	.searchBar {
+		display: flex;
+		flex-direction: column;
+	}
+	#userName {
+		display: none;
+	}
+}
+/* for small phones*/
+@media only screen and (max-width: 500px) {
+}
+/* for smaller phones*/
+@media only screen and (max-width: 350px) {
+	.navBarLinks {
+		font-size: 1.5rem !important;
+	}
+	form {
+		width: 280px;
+	}
+}

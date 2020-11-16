@@ -38,7 +38,7 @@ export const SearchBar = ({ getDrivers }) => {
 	};
 	return (
 		<Fragment>
-			<section className='flexDisplay justifyCenter flexWrap alignItemsCenter'>
+			<section className='flexDisplay justifyCenter flexWrap alignItemsCenter searchBar'>
 				<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 					<label htmlFor='location' className='fontWeight500 padding1'>
 						Location

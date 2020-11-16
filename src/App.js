@@ -1,11 +1,10 @@
 import './App.css';
 import React, { Fragment, useEffect, useState } from 'react';
 import NavBar from './components/layout/NavBar';
-import Alert from './components/layout/Alert';
 import Landing from './components/layout/Landing';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
-import { Profile as BookerProfile } from './components/bookers/Profile';
+import BookerProfile from './components/bookers/Profile';
 import {
 	BrowserRouter as Router,
 	Switch,

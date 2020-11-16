@@ -29,7 +29,7 @@ export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
 
 	if (isAuthenticated) {
 		document.getElementById('form').disabled = true;
-		setTimeout(() => setLoading(false), 3000);
+		setTimeout(() => setLoading(false), 4000);
 	}
 
 	useEffect(() => {
