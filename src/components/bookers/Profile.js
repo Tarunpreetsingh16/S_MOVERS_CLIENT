@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import star from './../../images/star.png';
-import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 //Redux
+import { updateBookerInfo, loadUser } from './../../actions/auth';
 import { connect } from 'react-redux';
 
-export const Profile = ({ user }) => {
+export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	/*State to store the data from the udpate form  */
 	const [formData, setFormData] = useState({
 		email: '',
@@ -14,6 +15,27 @@ export const Profile = ({ user }) => {
 	});
 	/*State to store whether we are showing Editable fields or non editable fields */
 	const [editing, setEditing] = useState(false);
+	/*State to store the errors which are updated on form submission  */
+	const [messages, setMessages] = useState({
+		email: '',
+		phone: '',
+		otherError: '',
+	});
+	const messagesHack = {
+		email: '',
+		phone: '',
+		otherError: '',
+	};
+	/*To hide the errors on changing the type of user */
+	const hideErrors = () => {
+		const messageBoxes = document.querySelectorAll('h5');
+		let i = 0;
+		for (; i < messageBoxes.length; i++) {
+			messageBoxes[i].classList.remove('displayBlock');
+			messageBoxes[i].classList.add('displayNone');
+			messageBoxes[i].classList.remove('padding0_5');
+		}
+	};
 	let img = useMemo(() => {
 		if (user) {
 			return `https://robohash.org/${user.name}`;
@@ -21,16 +43,48 @@ export const Profile = ({ user }) => {
 	}, [user]);
 	/*useEffect */
 	useEffect(() => {
-		if (user) {
+		if (user && !editing) {
 			setFormData({
 				...formData,
-				email: user.email,
+				email: user.email ? user.email : '',
 				phone: user.phone ? user.phone : '',
 			});
+		} else if (editing && formData) {
+			setFormData({
+				...formData,
+				email: formData.email ? formData.email : '',
+				phone: formData.phone ? formData.phone : '',
+			});
 		}
-	}, [user]);
+		if (updateErrors) {
+			updateErrors.map((error) => {
+				if (document.getElementById(error.param)) {
+					const messageBox = document.getElementById(error.param).nextSibling;
+					messagesHack[error.param] = error.msg;
+					messageBox.classList.add('displayBlock');
+					messageBox.classList.remove('displayNone');
+					messageBox.classList.add('padding0_5');
+				}
+			});
+			setMessages(messagesHack);
+		} else if (!updateErrors && editing) {
+			cancelEditing();
+			//Display the success message
+			const messageBox = document.getElementById('otherError').nextSibling;
+			messageBox.classList.add('displayBlock');
+			messageBox.classList.remove('displayNone');
+			messageBox.classList.add('padding0_5');
+			setMessages({
+				...messages,
+				email: '',
+				phone: '',
+				otherError: 'Updated Successfully!',
+			});
+		}
+	}, [user, updateErrors]);
 	/*method to display the editable fields and hide non editablefields */
 	const editOrConfirm = () => {
+		hideErrors();
 		if (!editing) {
 			//if button shows 'Edit' text hide non editable fields and show editable fields
 			const nonEditables = document.getElementsByClassName(
@@ -48,8 +102,24 @@ export const Profile = ({ user }) => {
 			}
 			setEditing(true);
 		}
+
+		if (editing) {
+			updateBookerInfo(formData).then(() => {
+				loadUser();
+			});
+		}
 	};
 	const cancel = () => {
+		hideErrors();
+		cancelEditing();
+		if (user)
+			setFormData({
+				...formData,
+				email: user.email ? user.email : '',
+				phone: user.phone ? user.phone : '',
+			});
+	};
+	const cancelEditing = () => {
 		if (editing) {
 			//if button shows 'Cancel' text show non editable fields and hide editable fields
 			const nonEditables = document.getElementsByClassName(
@@ -65,13 +135,9 @@ export const Profile = ({ user }) => {
 				editables[i].classList.remove('displayBlock');
 				editables[i].classList.add('displayNone');
 			}
-			setEditing(false);
 		}
-		setFormData({
-			...formData,
-			email: user.email,
-			phone: user.phone ? user.phone : '',
-		});
+
+		setEditing(false);
 	};
 	/*Method to update the form data when user changes any data on the page */
 	const updateFormData = (e) => {
@@ -105,7 +171,9 @@ export const Profile = ({ user }) => {
 							required
 							onChange={updateFormData}
 						></input>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'></h5>
+						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+							{messages.email}
+						</h5>
 					</div>
 					<div className='flexDisplayColumn fontSize2_5 padding2 '>
 						<label htmlFor='phone' className='fontWeight500 padding1'>
@@ -123,8 +191,14 @@ export const Profile = ({ user }) => {
 							required
 							onChange={updateFormData}
 						></input>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'></h5>
+						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
+							{messages.phone}
+						</h5>
 					</div>
+					<div id='otherError'></div>
+					<h5 className='fontSize1_5 fontWeight400 colorSuccess margin1_0'>
+						{messages.otherError}
+					</h5>
 					<div className='flexDisplay'>
 						<div className='padding2'>
 							<input
@@ -204,8 +278,15 @@ export const Profile = ({ user }) => {
 		</Fragment>
 	);
 };
+Profile.propTypes = {
+	updateBookerInfo: PropTypes.func.isRequired,
+	loadUser: PropTypes.func.isRequired,
+};
 /*map state which we want to use with the props */
 const mapStateToProps = (state) => ({
 	user: state.auth.user,
+	updateErrors: state.auth.updateErrors,
 });
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { updateBookerInfo, loadUser })(
+	Profile
+);

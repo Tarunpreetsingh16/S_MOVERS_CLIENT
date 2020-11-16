@@ -7,6 +7,8 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
 	LOGOUT_USER,
+	UPDATE_BOOKER_INFO,
+	UPDATE_BOOKER_INFO_FAIL,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
 import axios from 'axios';
@@ -103,6 +105,49 @@ export const login = (userData) => async (dispatch) => {
 	}
 };
 
+/*Action - updateBookerInfo - To logout a user from the system*/
+export const updateBookerInfo = (data) => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		setAuthToken(localStorage.jwt);
+	}
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+	try {
+		let res;
+		const filteredData = { ...data };
+		delete filteredData['password'];
+		delete filteredData['confirmPassword'];
+		if (!data.email || data.email.trim().length == 0) {
+			delete filteredData['email'];
+		}
+		if (!data.phone || data.phone.trim().length == 0) {
+			delete filteredData['phone'];
+		}
+		if (
+			!(
+				Object.keys(filteredData).length === 0 &&
+				filteredData.constructor === Object
+			)
+		) {
+			res = await axios.post('/api/bookers/update', filteredData, config);
+			dispatch({
+				type: UPDATE_BOOKER_INFO,
+			});
+		}
+	} catch (err) {
+		dispatch({
+			type: UPDATE_BOOKER_INFO_FAIL,
+			payload: err.response.data.errors,
+		});
+	} finally {
+		return new Promise((resolve) => {
+			resolve(true);
+		});
+	}
+};
 /*Action - logout - To logout a user from the system*/
 export const logout = () => async (dispatch) => {
 	if (localStorage.jwt && localStorage.typeOfUser) {

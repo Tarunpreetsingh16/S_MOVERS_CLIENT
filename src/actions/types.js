@@ -10,3 +10,5 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOAD_USER = 'LOAD_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const UPDATE_BOOKER_INFO = 'UPDATE_BOOKER_INFO';
+export const UPDATE_BOOKER_INFO_FAIL = 'UPDATE_BOOKER_INFO_FAIL';

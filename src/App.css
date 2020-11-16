@@ -50,6 +50,9 @@ select {
 .colorDanger {
 	background-color: #ff66667a;
 }
+.colorSuccess {
+	background-color: #7ad36e7a;
+}
 .width50 {
 	width: 50%;
 }
@@ -219,6 +222,7 @@ select {
 	.searchBar {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 	}
 	#userName {
 		display: none;
@@ -230,7 +234,7 @@ select {
 /* for smaller phones*/
 @media only screen and (max-width: 350px) {
 	.navBarLinks {
-		font-size: 1.5rem !important;
+		font-size: 1.5rem;
 	}
 	form {
 		width: 280px;
