@@ -66,7 +66,6 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 	);
 	return (
 		<Fragment>
-			{!isAuthenticated && <Redirect to='/' />}
 			<section className='padding2 colorLightBlue flexDisplay justifySpaceBetween alignItemsCenter'>
 				<Link to='/' className='fontSize2_5' style={{ textDecoration: 'none' }}>
 					<h1 className='colorWhite navBarLinks'>S_MOVERS</h1>

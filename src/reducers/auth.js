@@ -10,6 +10,8 @@ import {
 	LOGOUT_USER,
 	UPDATE_BOOKER_INFO_FAIL,
 	UPDATE_BOOKER_INFO,
+	UPDATE_PASSWORD,
+	UPDATE_PASSWORD_FAIL,
 } from './../actions/types';
 const initialState = {
 	token: localStorage.getItem('jwt'),
@@ -18,6 +20,7 @@ const initialState = {
 	errors: null,
 	loginErrors: null,
 	updateErrors: null,
+	updatePasswordErrors: null,
 };
 export default (state = initialState, action) => {
 	const { type, payload } = action;
@@ -61,6 +64,10 @@ export default (state = initialState, action) => {
 			return { ...state, updateErrors: null };
 		case UPDATE_BOOKER_INFO_FAIL:
 			return { ...state, updateErrors: [...payload] };
+		case UPDATE_PASSWORD:
+			return { ...state, updatePasswordErrors: null };
+		case UPDATE_PASSWORD_FAIL:
+			return { ...state, updatePasswordErrors: [...payload] };
 		case AUTH_ERROR:
 		case LOGOUT_USER:
 			localStorage.removeItem('jwt');

@@ -301,7 +301,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 	);
 	return (
 		<Fragment>
-			{isAuthenticated && <Loader />}
+			{isAuthenticated && <Loader msg='Loading' />}
 			{
 				/*Check  if the user has been loaded into the system*/
 				isAuthenticated && !loading && <Redirect to='/' />

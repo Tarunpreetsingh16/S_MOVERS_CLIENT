@@ -1,17 +1,13 @@
 import React from 'react';
 
-export const Loader = () => {
+export const Loader = ({ msg }) => {
 	return (
 		<div
-			className=' flexDisplay justifyCenter alignItemsCenter'
+			className=' flexDisplayColumn justifyCenter alignItemsCenter'
 			id='spinnerContainer'
 		>
-			<div
-				id='spinner'
-				className=' flexDisplay justifyCenter alignItemsCenter fontSize1_5 padding1 colorWhite'
-			>
-				Loading
-			</div>
+			<div id='spinner' className='padding1 '></div>
+			<div className='padding2 fontSize1_5 colorWhite'>{msg}</div>
 		</div>
 	);
 };

@@ -5,6 +5,7 @@ import Landing from './components/layout/Landing';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import BookerProfile from './components/bookers/Profile';
+import DeleteModal from './components/common/DeleteModal';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -18,7 +19,7 @@ import store from './store';
 const App = () => {
 	useEffect(() => {
 		store.dispatch(loadUser());
-	}, []);
+	});
 	return (
 		<Provider store={store}>
 			<Router>
@@ -29,6 +30,7 @@ const App = () => {
 						<Route exact path='/signUp' component={SignUp} />
 						<Route exact path='/login' component={Login} />
 						<Route exact path='/booker/profile' component={BookerProfile} />
+						<Route exact path='/modal' component={DeleteModal} />
 					</Switch>
 				</Fragment>
 			</Router>

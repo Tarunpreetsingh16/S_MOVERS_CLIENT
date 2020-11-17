@@ -1,31 +1,44 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import star from './../../images/star.png';
 import PropTypes from 'prop-types';
+import Loader from './../layout/Loader';
+import { Redirect } from 'react-router-dom';
 //Redux
 import { updateBookerInfo, loadUser } from './../../actions/auth';
 import { connect } from 'react-redux';
+import UpdatePassword from '../common/UpdatePassword';
 
 export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	/*State to store the data from the udpate form  */
 	const [formData, setFormData] = useState({
 		email: '',
 		phone: '',
-		password: '',
-		confirmPassword: '',
 	});
 	/*State to store whether we are showing Editable fields or non editable fields */
-	const [editing, setEditing] = useState(false);
+	const [editingInfo, setEditingInfo] = useState(false);
 	/*State to store the errors which are updated on form submission  */
 	const [messages, setMessages] = useState({
 		email: '',
 		phone: '',
 		otherError: '',
 	});
+	/*State to check if the page needs to show the loader or not */
+	const [loader, setLoader] = useState(false);
+	const [redirect, setRedirect] = useState(false);
 	const messagesHack = {
 		email: '',
 		phone: '',
 		otherError: '',
 	};
+
+	/*method to trigger the loader */
+	const triggerLoader = () => {
+		setLoader(true);
+	};
+	/*To check if page is done loading then redirect to home screen*/
+	if (loader) {
+		setTimeout(() => setRedirect(true), 5000);
+	}
 	/*To hide the errors on changing the type of user */
 	const hideErrors = () => {
 		const messageBoxes = document.querySelectorAll('h5');
@@ -43,13 +56,13 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	}, [user]);
 	/*useEffect */
 	useEffect(() => {
-		if (user && !editing) {
+		if (user && !editingInfo) {
 			setFormData({
 				...formData,
 				email: user.email ? user.email : '',
 				phone: user.phone ? user.phone : '',
 			});
-		} else if (editing && formData) {
+		} else if (editingInfo && formData) {
 			setFormData({
 				...formData,
 				email: formData.email ? formData.email : '',
@@ -67,7 +80,7 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 				}
 			});
 			setMessages(messagesHack);
-		} else if (!updateErrors && editing) {
+		} else if (!updateErrors && editingInfo) {
 			cancelEditing();
 			//Display the success message
 			const messageBox = document.getElementById('otherError').nextSibling;
@@ -85,7 +98,7 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	/*method to display the editable fields and hide non editablefields */
 	const editOrConfirm = () => {
 		hideErrors();
-		if (!editing) {
+		if (!editingInfo) {
 			//if button shows 'Edit' text hide non editable fields and show editable fields
 			const nonEditables = document.getElementsByClassName(
 				'nonEditableFieldSet'
@@ -100,10 +113,10 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 				editables[i].classList.remove('displayNone');
 				editables[i].classList.add('displayBlock');
 			}
-			setEditing(true);
+			setEditingInfo(true);
 		}
 
-		if (editing) {
+		if (editingInfo) {
 			updateBookerInfo(formData).then(() => {
 				loadUser();
 			});
@@ -120,7 +133,7 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 			});
 	};
 	const cancelEditing = () => {
-		if (editing) {
+		if (editingInfo) {
 			//if button shows 'Cancel' text show non editable fields and hide editable fields
 			const nonEditables = document.getElementsByClassName(
 				'nonEditableFieldSet'
@@ -137,13 +150,17 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 			}
 		}
 
-		setEditing(false);
+		setEditingInfo(false);
 	};
 	/*Method to update the form data when user changes any data on the page */
 	const updateFormData = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-	return (
+	return redirect ? (
+		<Redirect to='/' />
+	) : loader ? (
+		<Loader msg='Password changed! Please login again.' />
+	) : (
 		<Fragment>
 			<section className='flexDisplay padding2 justifyCenter alignItemsStart updateForm'>
 				<div className='flexDisplayColumn '>
@@ -204,7 +221,7 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 							<input
 								type='submit'
 								className='btn padding1 fontSize1_5 btn-theme'
-								value={!editing ? 'Edit' : 'Confirm'}
+								value={!editingInfo ? 'Edit' : 'Confirm'}
 								onClick={editOrConfirm}
 							></input>
 						</div>
@@ -217,42 +234,7 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 							></input>
 						</div>
 					</div>
-					<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-						<label htmlFor='password' className='fontWeight500 padding1'>
-							New Password
-						</label>
-						<input
-							type='password'
-							name='password'
-							id='password'
-							className='padding1'
-							required
-							onChange={updateFormData}
-						></input>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'></h5>
-					</div>
-
-					<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-						<label htmlFor='confirmPassword' className='fontWeight500 padding1'>
-							Confirm Password
-						</label>
-						<input
-							type='confirmPassword'
-							name='confirmPassword'
-							id='passconfirmPasswordword'
-							className='padding1'
-							required
-							onChange={updateFormData}
-						></input>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'></h5>
-					</div>
-					<div className='padding2 '>
-						<input
-							type='submit'
-							className='btn padding1 fontSize1_5 btn-theme'
-							value='Change Password'
-						></input>
-					</div>
+					<UpdatePassword triggerLoader={triggerLoader} />
 				</div>
 				<div>
 					<div className='flexDisplayColumn fontSize2_5 padding2 '>
