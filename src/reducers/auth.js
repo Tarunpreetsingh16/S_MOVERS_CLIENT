@@ -12,6 +12,9 @@ import {
 	UPDATE_BOOKER_INFO,
 	UPDATE_PASSWORD,
 	UPDATE_PASSWORD_FAIL,
+	DELETE_ACCOUNT,
+	DELETE_ACCOUNT_FAIL,
+	CLEAR_DELETE_ERRORS,
 } from './../actions/types';
 const initialState = {
 	token: localStorage.getItem('jwt'),
@@ -21,6 +24,7 @@ const initialState = {
 	loginErrors: null,
 	updateErrors: null,
 	updatePasswordErrors: null,
+	deleteErrors: null,
 };
 export default (state = initialState, action) => {
 	const { type, payload } = action;
@@ -70,9 +74,20 @@ export default (state = initialState, action) => {
 			return { ...state, updatePasswordErrors: [...payload] };
 		case AUTH_ERROR:
 		case LOGOUT_USER:
+		case DELETE_ACCOUNT:
 			localStorage.removeItem('jwt');
 			localStorage.removeItem('typeOfUser');
-			return { ...state, token: null, isAuthenticated: false, user: null };
+			return {
+				...state,
+				token: null,
+				isAuthenticated: false,
+				user: null,
+				deleteErrors: null,
+			};
+		case DELETE_ACCOUNT_FAIL:
+			return { ...state, deleteErrors: [...payload] };
+		case CLEAR_DELETE_ERRORS:
+			return { ...state, deleteErrors: null };
 		case CLEAR_ERRORS:
 			return { ...state, errors: null, loginErrors: null };
 		default:

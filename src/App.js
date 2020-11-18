@@ -30,7 +30,6 @@ const App = () => {
 						<Route exact path='/signUp' component={SignUp} />
 						<Route exact path='/login' component={Login} />
 						<Route exact path='/booker/profile' component={BookerProfile} />
-						<Route exact path='/modal' component={DeleteModal} />
 					</Switch>
 				</Fragment>
 			</Router>

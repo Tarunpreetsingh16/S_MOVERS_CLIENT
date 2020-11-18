@@ -11,6 +11,8 @@ import {
 	UPDATE_BOOKER_INFO_FAIL,
 	UPDATE_PASSWORD_FAIL,
 	UPDATE_PASSWORD,
+	DELETE_ACCOUNT,
+	DELETE_ACCOUNT_FAIL,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
 import axios from 'axios';
@@ -210,6 +212,38 @@ export const logout = () => async (dispatch) => {
 		return new Promise((resolve) => {
 			resolve(true);
 		});
+	}
+};
+/*Action - deleteAccount - To delete a user from the system*/
+export const deleteAccount = (data) => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		const header = {
+			'Content-Type': 'application/json',
+			'x-auth-token': localStorage.jwt,
+		};
+		try {
+			let res;
+			if (localStorage.typeOfUser === 'booker')
+				res = await axios.delete('/api/bookers/', { header, data });
+			else if (localStorage.typeOfUser === 'driver')
+				res = await axios.delete('/api/drivers/', { header, data });
+			else if (localStorage.typeOfUser === 'helper')
+				res = await axios.delete('/api/helpers/', { header, data });
+			var promise = new Promise((resolve) => {
+				resolve(res);
+			});
+			return promise;
+		} catch (err) {
+			dispatch({
+				type: DELETE_ACCOUNT_FAIL,
+				payload: err.response.data.errors,
+			});
+
+			var promise = new Promise((resolve) => {
+				resolve(err.response);
+			});
+			return promise;
+		}
 	}
 };
 export const clearErrors = () => (dispatch) => {
