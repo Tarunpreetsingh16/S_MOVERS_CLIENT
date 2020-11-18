@@ -3,12 +3,19 @@ import star from './../../images/star.png';
 import PropTypes from 'prop-types';
 import Loader from './../layout/Loader';
 import { Redirect } from 'react-router-dom';
+import DeleteModal from './../common/DeleteModal';
 //Redux
 import { updateBookerInfo, loadUser } from './../../actions/auth';
 import { connect } from 'react-redux';
 import UpdatePassword from '../common/UpdatePassword';
 
-export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
+export const Profile = ({
+	user,
+	updateBookerInfo,
+	updateErrors,
+	loadUser,
+	isAuthenticated,
+}) => {
 	/*State to store the data from the udpate form  */
 	const [formData, setFormData] = useState({
 		email: '',
@@ -25,6 +32,8 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	/*State to check if the page needs to show the loader or not */
 	const [loader, setLoader] = useState(false);
 	const [redirect, setRedirect] = useState(false);
+	/*State to load the delete account modal*/
+	const [deleteModal, setDeleteModal] = useState(false);
 	const messagesHack = {
 		email: '',
 		phone: '',
@@ -156,8 +165,18 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 	const updateFormData = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-	return redirect ? (
+	/*Update the deleteModal state to open the modal screen */
+	const openDeleteModal = () => {
+		setDeleteModal(true);
+	};
+	/*Update the deleteModal state to close the modal screen */
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+	};
+	return !isAuthenticated || redirect ? (
 		<Redirect to='/' />
+	) : deleteModal ? (
+		<DeleteModal id='deleteModal' cancelModal={closeDeleteModal} />
 	) : loader ? (
 		<Loader msg='Password changed! Please login again.' />
 	) : (
@@ -255,6 +274,14 @@ export const Profile = ({ user, updateBookerInfo, updateErrors, loadUser }) => {
 							{user ? user.numberOfServices : ''} &nbsp;
 						</div>
 					</div>
+					<div className='padding2 '>
+						<input
+							type='submit'
+							className='btn colorDanger padding1 fontSize1_5 btn-danger'
+							value='Delete Account'
+							onClick={openDeleteModal}
+						></input>
+					</div>
 				</div>
 			</section>
 		</Fragment>
@@ -268,6 +295,7 @@ Profile.propTypes = {
 const mapStateToProps = (state) => ({
 	user: state.auth.user,
 	updateErrors: state.auth.updateErrors,
+	isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, { updateBookerInfo, loadUser })(
 	Profile
