@@ -11,7 +11,8 @@ import {
 	UPDATE_BOOKER_INFO_FAIL,
 	UPDATE_PASSWORD_FAIL,
 	UPDATE_PASSWORD,
-	DELETE_ACCOUNT,
+	UPDATE_DRIVER_INFO,
+	UPDATE_DRIVER_INFO_FAIL,
 	DELETE_ACCOUNT_FAIL,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
@@ -113,7 +114,7 @@ export const login = (userData) => async (dispatch) => {
 	}
 };
 
-/*Action - updateBookerInfo - To logout a user from the system*/
+/*Action - updateBookerInfo - To udpate a user from the system*/
 export const updateBookerInfo = (data) => async (dispatch) => {
 	if (localStorage.jwt && localStorage.typeOfUser) {
 		setAuthToken(localStorage.jwt);
@@ -154,7 +155,61 @@ export const updateBookerInfo = (data) => async (dispatch) => {
 		});
 	}
 };
+/*Action - updateDriverInfo - To update a driver in the system*/
+export const updateDriverInfo = (data) => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		setAuthToken(localStorage.jwt);
+	}
 
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+
+	try {
+		let res;
+		const filteredData = { ...data };
+		if (!data.email || data.email.trim().length == 0) {
+			delete filteredData['email'];
+		}
+		console.log(4);
+		if (!data.carType || data.carType.trim().length == 0) {
+			delete filteredData['carType'];
+		}
+		console.log(3);
+		if (!data.location || data.location.trim().length == 0) {
+			delete filteredData['location'];
+		}
+		console.log(filteredData);
+		if (
+			!data.drivingExperience ||
+			String(data.drivingExperience).trim().length == 0
+		) {
+			delete filteredData['drivingExperience'];
+		}
+		if (
+			!(
+				Object.keys(filteredData).length === 0 &&
+				filteredData.constructor === Object
+			)
+		) {
+			res = await axios.post('/api/drivers/update', filteredData, config);
+			dispatch({
+				type: UPDATE_DRIVER_INFO,
+			});
+		}
+	} catch (err) {
+		dispatch({
+			type: UPDATE_DRIVER_INFO_FAIL,
+			payload: err.response.data.errors,
+		});
+	} finally {
+		return new Promise((resolve) => {
+			resolve(true);
+		});
+	}
+};
 /*Action - updatePassword - To update a password for a a user logged in*/
 export const updatePassword = (userData) => async (dispatch) => {
 	if (localStorage.jwt && localStorage.typeOfUser) {

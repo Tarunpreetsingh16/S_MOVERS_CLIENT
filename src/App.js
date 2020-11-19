@@ -7,12 +7,8 @@ import Login from './components/auth/Login';
 import BookerProfile from './components/bookers/Profile';
 import ShowProfile from './components/bookers/ShowProfile';
 import Bookings from './components/bookers/Bookings';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from 'react-router-dom';
+import DriverProfile from './components/drivers/Profile';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //Redux
 import { loadUser } from './actions/auth';
 import { Provider } from 'react-redux';
@@ -37,6 +33,7 @@ const App = () => {
 						/>
 						<Route exact path='/booker/profile' component={BookerProfile} />
 						<Route exact path='/bookings' component={Bookings} />
+						<Route exact path='/driver/profile' component={DriverProfile} />
 					</Switch>
 				</Fragment>
 			</Router>

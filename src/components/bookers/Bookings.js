@@ -5,7 +5,11 @@ import BookingsCard from './../common/BookingsCard';
 //Redux
 import { connect } from 'react-redux';
 import { getPreviousBookings } from './../../actions/bookers';
-export const Bookings = ({ getPreviousBookings, previousBookings }) => {
+export const Bookings = ({
+	getPreviousBookings,
+	previousBookings,
+	isAuthenticated,
+}) => {
 	const [showPreviousBookings, setShowPreviousBookings] = useState(false);
 	const changeBookingsState = (e) => {
 		if (e.target.id === 'prevBookings') {
@@ -62,7 +66,7 @@ export const Bookings = ({ getPreviousBookings, previousBookings }) => {
 					<BookingsCard key={booking._id} booking={booking} index={index} />
 				);
 		});
-	return !localStorage.jwt ? (
+	return !isAuthenticated ? (
 		<Redirect to='/' />
 	) : (
 		<Fragment>
@@ -96,5 +100,6 @@ Bookings.propTypes = {
 };
 const mapStateToProps = (state) => ({
 	previousBookings: state.bookers.previousBookings,
+	isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, { getPreviousBookings })(Bookings);
