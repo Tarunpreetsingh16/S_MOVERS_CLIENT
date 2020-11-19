@@ -181,6 +181,9 @@ export const Profile = ({
 		<Loader msg='Password changed! Please login again.' />
 	) : (
 		<Fragment>
+			<div className='fontSize2_5 padding1' id='profileTitle'>
+				Profile
+			</div>
 			<section className='flexDisplay padding2 justifyCenter alignItemsStart updateForm'>
 				<div className='flexDisplayColumn '>
 					<div id='userImage'>

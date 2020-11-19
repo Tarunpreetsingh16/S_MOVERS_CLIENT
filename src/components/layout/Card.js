@@ -1,8 +1,10 @@
 /*Driver Card- Component used to display the available drivers available in the system*/
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import star from './../../images/star.png';
-
-export const Card = ({ dataFromParent }) => {
+import { Redirect } from 'react-router-dom';
+export const Card = ({ dataFromParent, typeOfUser }) => {
+	/*State to redirect the page to view driver profile */
+	const [viewProfile, setViewProfile] = useState(false);
 	/*Check if data is present in the data which is being sent from thwe parent*/
 	if (!dataFromParent) return <div></div>;
 	/*Destructure the data sent from the parent */
@@ -14,6 +16,10 @@ export const Card = ({ dataFromParent }) => {
 		totalTrips,
 		rating,
 	} = dataFromParent;
+	/*show the index of the driver */
+	const displayProfile = () => {
+		setViewProfile(true);
+	};
 	/*Use availability array to display to the user*/
 	const availabilityDisplay = availability.map((item, index) => {
 		const date = new Date();
@@ -53,10 +59,24 @@ export const Card = ({ dataFromParent }) => {
 			</li>
 		);
 	});
-	return (
+	return viewProfile ? (
+		<Redirect
+			to={{
+				pathname: '/viewProfile',
+				state: {
+					dataFromParent: { dataFromParent },
+					typeOfUser: { typeOfUser },
+				},
+			}}
+		/>
+	) : (
 		<Fragment>
-			<section className='flexDisplay cardContainer shadow padding2'>
-				<div className='flexDisplayColumn' style={{ flexGrow: 2 }}>
+			<section className='flexDisplay cardContainer padding2 pointer'>
+				<div
+					className='flexDisplayColumn'
+					style={{ flexGrow: 2 }}
+					onClick={displayProfile}
+				>
 					<h3 className='fontSize1_5 fontWeight400'>
 						<strong className='fontSize1_5'>Name: </strong> {name}
 					</h3>
@@ -68,10 +88,12 @@ export const Card = ({ dataFromParent }) => {
 						<strong className='fontSize1_5'>Total Services: </strong>
 						{totalTrips}
 					</h3>
-					<h3 className='fontSize1_5 fontWeight400'>
-						<strong className='fontSize1_5'>Car Type: </strong>
-						{carType.toUpperCase()}
-					</h3>
+					{typeOfUser === 'driver' ? (
+						<h3 className='fontSize1_5 fontWeight400'>
+							<strong className='fontSize1_5'>Car Type: </strong>
+							{carType.toUpperCase()}
+						</h3>
+					) : null}
 					<div>
 						<h3 className='fontSize1_5 fontWeight400'>
 							<strong className='fontSize1_5 '>Availability</strong>

@@ -1,13 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import SearchBar from './SearchBar';
 import AvailableDrivers from './../drivers/AvailableDrivers';
+import AvailableHelpers from './../helpers/AvailableHelpers';
 //Redux
 export const Landing = () => {
+	const [typeOfUser, setTypeOfUser] = useState('driver');
+	const changeTypeOfUser = (value) => {
+		setTypeOfUser(value);
+	};
 	return (
 		<Fragment>
 			<div className='flexDisplayColumn'>
-				<SearchBar />
-				<AvailableDrivers />
+				<SearchBar changeTypeOfUser={changeTypeOfUser} />
+				{typeOfUser === 'driver' ? <AvailableDrivers /> : <AvailableHelpers />}
 			</div>
 		</Fragment>
 	);

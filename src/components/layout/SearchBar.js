@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { vehicleTypes } from './../../lib/vehicleTypes';
 //Redux
 import { getDrivers } from './../../actions/drivers';
+import { getHelpers } from './../../actions/helpers';
 
-export const SearchBar = ({ getDrivers }) => {
+export const SearchBar = ({ getDrivers, getHelpers, changeTypeOfUser }) => {
 	const [location, setLocation] = useState();
 	const [carType, setCarType] = useState();
 	const [date, setDate] = useState();
@@ -15,8 +16,12 @@ export const SearchBar = ({ getDrivers }) => {
 		let newLocation;
 		if (location) newLocation = location.trim();
 		else newLocation = null;
-		getDrivers({ location: newLocation, carType, date });
-	}, [location, carType, date, getDrivers]);
+		if (typeOfUser === 'driver')
+			getDrivers({ location: newLocation, carType, date });
+		else if (typeOfUser === 'helper') {
+			getHelpers({ location: newLocation, date });
+		}
+	}, [location, carType, date, getDrivers, typeOfUser]);
 
 	let updateFilters = (e) => {
 		switch (e.target.name) {
@@ -30,6 +35,14 @@ export const SearchBar = ({ getDrivers }) => {
 				setDate(e.target.value);
 				break;
 			case 'typeOfUser':
+				//disable the car type for helper
+				if (e.target.value === 'helper') {
+					document.getElementById('carType').disabled = true;
+				} //enable the car type for helper
+				else if (e.target.value === 'driver') {
+					document.getElementById('carType').disabled = false;
+				}
+				changeTypeOfUser(e.target.value);
 				setTypeOfUser(e.target.value);
 				break;
 			default:
@@ -38,7 +51,7 @@ export const SearchBar = ({ getDrivers }) => {
 	};
 	return (
 		<Fragment>
-			<section className='flexDisplay justifyCenter flexWrap alignItemsCenter searchBar'>
+			<section className='flexDisplay justifyCenter flexWrap alignItemsStart searchBar'>
 				<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
 					<label htmlFor='location' className='fontWeight500 padding1'>
 						Location
@@ -84,30 +97,35 @@ export const SearchBar = ({ getDrivers }) => {
 						onChange={updateFilters}
 					></input>
 				</div>
-				<div className='fieldSet fontSize2_5 padding2'>
-					<input
-						type='radio'
-						name='typeOfUser'
-						id='typeOfUser'
-						className='padding1'
-						value='driver'
-						defaultChecked
-						onChange={updateFilters}
-					></input>
-					<label htmlFor='driver' className='fontWeight500 padding1'>
-						Driver
+				<div className='flexDisplayColumn fieldSet fontSize2_5 padding2'>
+					<label htmlFor='typeOfUser' className='fontWeight500 padding1'>
+						Type of service
 					</label>
-					<input
-						type='radio'
-						name='typeOfUser'
-						id='typeOfUser'
-						className='padding1'
-						value='helper'
-						onChange={updateFilters}
-					></input>
-					<label htmlFor='helper' className='fontWeight500 padding1'>
-						Helper
-					</label>
+					<div className='fieldSet fontSize2_5 padding1'>
+						<input
+							type='radio'
+							name='typeOfUser'
+							id='typeOfUser'
+							className='padding1'
+							value='driver'
+							defaultChecked
+							onChange={updateFilters}
+						></input>
+						<label htmlFor='driver' className='fontWeight500 padding1'>
+							Driver
+						</label>
+						<input
+							type='radio'
+							name='typeOfUser'
+							id='typeOfUser'
+							className='padding1'
+							value='helper'
+							onChange={updateFilters}
+						></input>
+						<label htmlFor='helper' className='fontWeight500 padding1'>
+							Helper
+						</label>
+					</div>
 				</div>
 			</section>
 			<h4
@@ -123,7 +141,8 @@ export const SearchBar = ({ getDrivers }) => {
 a good option to check the type of the props that we are gonna use in the components */
 SearchBar.propTypes = {
 	getDrivers: PropTypes.func.isRequired,
+	getHelpers: PropTypes.func.isRequired,
 };
 /*connect to connect this component to redux and pass null as first parameter as we do not want any state updates 
 second parameter is use to dispatch an action */
-export default connect(null, { getDrivers })(SearchBar);
+export default connect(null, { getDrivers, getHelpers })(SearchBar);

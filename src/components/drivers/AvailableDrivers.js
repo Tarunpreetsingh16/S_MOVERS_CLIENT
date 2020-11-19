@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Card as DriverCard } from './../layout/DriverCard';
+import { Card } from '../layout/Card';
 
 export const AvailableDrivers = ({ drivers }) => {
 	const driversNested = drivers.drivers;
@@ -8,10 +8,16 @@ export const AvailableDrivers = ({ drivers }) => {
 	const availableDrivers =
 		driversNested != null &&
 		driversNested.length > 0 &&
-		driversNested.map((driver) => {
+		driversNested.map((driver, index) => {
 			if (driver !== undefined)
 				/*If the driver is present then show it to the user by sending data to the Display Card */
-				return <DriverCard key={driver[0]._id} dataFromParent={driver[0]} />;
+				return (
+					<Card
+						key={driver[0]._id}
+						dataFromParent={driver[0]}
+						typeOfUser={'driver'}
+					/>
+				);
 		});
 
 	if (!availableDrivers) {

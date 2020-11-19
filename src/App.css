@@ -63,11 +63,19 @@ select {
 	margin: 2rem auto;
 	border: 3px solid #6ea4eb;
 	border-radius: 1rem;
+	box-shadow: 0rem 0rem 2rem black;
 	width: 50%;
 	line-height: 3rem;
+	transition: 0.2s all ease-in-out;
+}
+.cardContainer:hover {
+	box-shadow: 0rem 0rem 4rem black;
+}
+.cardContainer:active {
+	box-shadow: 0rem 0rem 2rem black;
 }
 .shadow {
-	box-shadow: 0rem 0rem 1rem grey;
+	box-shadow: 0rem 0rem 1rem black;
 }
 .flexDisplay {
 	display: flex;
@@ -93,6 +101,9 @@ select {
 }
 .alignItemsStart {
 	align-items: flex-start;
+}
+.alignItemsEnd {
+	align-items: flex-end;
 }
 .pointer {
 	cursor: pointer;
@@ -121,6 +132,10 @@ select {
 	border: 2px solid #6ea4eb;
 	background-color: white;
 	color: #6ea4eb;
+}
+.btn-active {
+	background-color: #2177e7;
+	box-shadow: 0 0 2rem black;
 }
 .btn-danger {
 	background-color: red;
@@ -165,8 +180,20 @@ select {
 .borderTesting {
 	border: 5px solid black;
 }
-
+.fillColor {
+	transition: 0.5s all ease-in-out;
+}
+.fillColor:hover {
+	color: black;
+}
+.fillColor:active {
+	color: white;
+}
 /*CSS IDs*/
+#profileTitle {
+	margin: 2rem auto;
+	width: 200px;
+}
 #modalBox {
 	position: fixed;
 	top: 0;
@@ -278,6 +305,7 @@ select {
 			transform: translate(300px, 0px);
 		}
 	}
+	.profileView,
 	.updateForm,
 	.searchBar {
 		display: flex;

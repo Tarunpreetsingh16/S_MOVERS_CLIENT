@@ -49,10 +49,17 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 			</div>
 			<Link
 				to={profileLinkTo}
-				className='fontSize2_5 colorWhite navBarLinks'
+				className='fontSize2_5 colorWhite navBarLinks fillColor'
 				style={{ textDecoration: 'none' }}
 			>
 				<li className=''>Profile</li>
+			</Link>
+			<Link
+				to='/bookings'
+				className='fontSize2_5 colorWhite navBarLinks fillColor'
+				style={{ textDecoration: 'none' }}
+			>
+				<li className=''>Bookings</li>
 			</Link>
 			<div
 				className='fontSize2_5 pointer navBarLinks'

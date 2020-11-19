@@ -5,7 +5,8 @@ import Landing from './components/layout/Landing';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import BookerProfile from './components/bookers/Profile';
-import DeleteModal from './components/common/DeleteModal';
+import ShowProfile from './components/bookers/ShowProfile';
+import Bookings from './components/bookers/Bookings';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -29,7 +30,13 @@ const App = () => {
 						<Route exact path='/' component={Landing} />
 						<Route exact path='/signUp' component={SignUp} />
 						<Route exact path='/login' component={Login} />
+						<Route
+							exact
+							path='/viewProfile'
+							render={(props) => <ShowProfile {...props} />}
+						/>
 						<Route exact path='/booker/profile' component={BookerProfile} />
+						<Route exact path='/bookings' component={Bookings} />
 					</Switch>
 				</Fragment>
 			</Router>
