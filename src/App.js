@@ -8,6 +8,7 @@ import BookerProfile from './components/bookers/Profile';
 import ShowProfile from './components/bookers/ShowProfile';
 import Bookings from './components/bookers/Bookings';
 import DriverProfile from './components/drivers/Profile';
+import HelperProfile from './components/helpers/Profile';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //Redux
 import { loadUser } from './actions/auth';
@@ -34,6 +35,7 @@ const App = () => {
 						<Route exact path='/booker/profile' component={BookerProfile} />
 						<Route exact path='/bookings' component={Bookings} />
 						<Route exact path='/driver/profile' component={DriverProfile} />
+						<Route exact path='/helper/profile' component={HelperProfile} />
 					</Switch>
 				</Fragment>
 			</Router>

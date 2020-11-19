@@ -20,10 +20,10 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 		<ul className='flexDisplay alignItemsCenter fontSize2_5'>
 			<Link
 				to='/signUp'
-				className='fontSize2_5 navBarLinks'
+				className='fontSize2_5 navBarLinks '
 				style={{ textDecoration: 'none' }}
 			>
-				<li className='colorWhite'>Sign Up</li>
+				<li className='colorWhite fillColor'>Sign Up</li>
 			</Link>
 			<Link
 				to='/login'

@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 import Loader from './../layout/Loader';
 import { Redirect } from 'react-router-dom';
 import DeleteModal from './../common/DeleteModal';
-import { vehicleTypes } from './../../lib/vehicleTypes';
 import { cities } from './../../lib/servicableAreas';
 //Redux
-import { updateDriverInfo, loadUser } from './../../actions/auth';
+import { updateHelperInfo, loadUser } from './../../actions/auth';
 import { connect } from 'react-redux';
 import UpdatePassword from '../common/UpdatePassword';
 
 export const Profile = ({
 	user,
-	updateDriverInfo,
+	updateHelperInfo,
 	updateErrors,
 	loadUser,
 	isAuthenticated,
@@ -22,8 +21,6 @@ export const Profile = ({
 	const [formData, setFormData] = useState({
 		email: '',
 		location: '',
-		drivingExperience: '',
-		carType: '',
 	});
 	/*State to store whether we are showing Editable fields or non editable fields */
 	const [editingInfo, setEditingInfo] = useState(false);
@@ -31,8 +28,6 @@ export const Profile = ({
 	const [messages, setMessages] = useState({
 		email: '',
 		location: '',
-		drivingExperience: '',
-		carType: '',
 		otherError: '',
 	});
 	/*State to check if the page needs to show the loader or not */
@@ -43,8 +38,6 @@ export const Profile = ({
 	const messagesHack = {
 		email: '',
 		location: '',
-		drivingExperience: '',
-		carType: '',
 		otherError: '',
 	};
 
@@ -78,18 +71,12 @@ export const Profile = ({
 				...formData,
 				email: user.email ? user.email : '',
 				location: user.location ? user.location : '',
-				drivingExperience: user.drivingExperience ? user.drivingExperience : '',
-				carType: user.carType ? user.carType : '',
 			});
 		} else if (editingInfo && formData) {
 			setFormData({
 				...formData,
 				email: formData.email ? formData.email : '',
 				location: formData.location ? formData.location : '',
-				drivingExperience: formData.drivingExperience
-					? formData.drivingExperience
-					: '',
-				carType: formData.carType ? formData.carType : '',
 			});
 		}
 		if (updateErrors) {
@@ -114,8 +101,6 @@ export const Profile = ({
 				...messages,
 				email: '',
 				location: '',
-				drivingExperience: '',
-				carType: '',
 				otherError: 'Updated Successfully!',
 			});
 		}
@@ -142,7 +127,7 @@ export const Profile = ({
 		}
 
 		if (editingInfo) {
-			updateDriverInfo(formData).then(() => {
+			updateHelperInfo(formData).then(() => {
 				loadUser();
 			});
 		}
@@ -230,60 +215,6 @@ export const Profile = ({
 						></input>
 						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
 							{messages.email}
-						</h5>
-					</div>
-					<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-						<label htmlFor='carType' className='fontWeight500 padding1'>
-							Car Type
-						</label>
-						<div className='padding1 nonEditableFieldSet'>
-							{user ? user.carType.toUpperCase() : ''}
-						</div>
-						<select
-							name='carType'
-							id='carType'
-							className='padding1 displayNone editableFieldSet'
-							value={formData ? formData.carType : ''}
-							onChange={updateFormData}
-						>
-							{vehicleTypes.map((vehicleType) => {
-								if (!vehicleType.disabled)
-									return (
-										<option
-											key={vehicleType.value}
-											value={vehicleType.value}
-											className='fontSize1_5'
-										>
-											{vehicleType.label}
-										</option>
-									);
-							})}
-						</select>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
-							{messages.carType}
-						</h5>
-					</div>
-					<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
-						<label
-							htmlFor='drivingExperience'
-							className='fontWeight500 padding1'
-						>
-							Driving Experience
-						</label>
-						<div className='padding1 nonEditableFieldSet'>
-							{user ? user.drivingExperience : ''}
-						</div>
-						<input
-							type='number'
-							name='drivingExperience'
-							id='drivingExperience'
-							value={formData ? formData.drivingExperience : ''}
-							className='padding1 displayNone editableFieldSet'
-							required
-							onChange={updateFormData}
-						></input>
-						<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
-							{messages.drivingExperience}
 						</h5>
 					</div>
 					<div className='fieldSet flexDisplayColumn fontSize2_5 padding2'>
@@ -375,7 +306,7 @@ export const Profile = ({
 	);
 };
 Profile.propTypes = {
-	updateDriverInfo: PropTypes.func.isRequired,
+	updateHelperInfo: PropTypes.func.isRequired,
 	loadUser: PropTypes.func.isRequired,
 };
 /*map state which we want to use with the props */
@@ -384,6 +315,6 @@ const mapStateToProps = (state) => ({
 	updateErrors: state.auth.updateErrors,
 	isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { updateDriverInfo, loadUser })(
+export default connect(mapStateToProps, { updateHelperInfo, loadUser })(
 	Profile
 );

@@ -12,6 +12,8 @@ export const Landing = ({ isAuthenticated }) => {
 	};
 	return isAuthenticated && localStorage.typeOfUser === 'driver' ? (
 		<Redirect to='/driver/profile' />
+	) : isAuthenticated && localStorage.typeOfUser === 'helper' ? (
+		<Redirect to='/helper/profile' />
 	) : (
 		<Fragment>
 			<div className='flexDisplayColumn'>

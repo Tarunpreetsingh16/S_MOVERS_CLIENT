@@ -14,6 +14,8 @@ import {
 	UPDATE_DRIVER_INFO,
 	UPDATE_DRIVER_INFO_FAIL,
 	DELETE_ACCOUNT_FAIL,
+	UPDATE_HELPER_INFO,
+	UPDATE_HELPER_INFO_FAIL,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
 import axios from 'axios';
@@ -173,15 +175,12 @@ export const updateDriverInfo = (data) => async (dispatch) => {
 		if (!data.email || data.email.trim().length == 0) {
 			delete filteredData['email'];
 		}
-		console.log(4);
 		if (!data.carType || data.carType.trim().length == 0) {
 			delete filteredData['carType'];
 		}
-		console.log(3);
 		if (!data.location || data.location.trim().length == 0) {
 			delete filteredData['location'];
 		}
-		console.log(filteredData);
 		if (
 			!data.drivingExperience ||
 			String(data.drivingExperience).trim().length == 0
@@ -202,6 +201,50 @@ export const updateDriverInfo = (data) => async (dispatch) => {
 	} catch (err) {
 		dispatch({
 			type: UPDATE_DRIVER_INFO_FAIL,
+			payload: err.response.data.errors,
+		});
+	} finally {
+		return new Promise((resolve) => {
+			resolve(true);
+		});
+	}
+};
+
+/*Action - updateHelperInfo - To update a helper in the system*/
+export const updateHelperInfo = (data) => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		setAuthToken(localStorage.jwt);
+	}
+
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+
+	try {
+		let res;
+		const filteredData = { ...data };
+		if (!data.email || data.email.trim().length == 0) {
+			delete filteredData['email'];
+		}
+		if (!data.location || data.location.trim().length == 0) {
+			delete filteredData['location'];
+		}
+		if (
+			!(
+				Object.keys(filteredData).length === 0 &&
+				filteredData.constructor === Object
+			)
+		) {
+			res = await axios.post('/api/helpers/update', filteredData, config);
+			dispatch({
+				type: UPDATE_HELPER_INFO,
+			});
+		}
+	} catch (err) {
+		dispatch({
+			type: UPDATE_HELPER_INFO_FAIL,
 			payload: err.response.data.errors,
 		});
 	} finally {

@@ -182,9 +182,12 @@ select {
 }
 .fillColor {
 	transition: 0.5s all ease-in-out;
+	border-bottom: none;
+	border-bottom: 0 solid #6ea4eb;
 }
 .fillColor:hover {
 	color: black;
+	border-bottom: 1px solid white;
 }
 .fillColor:active {
 	color: white;

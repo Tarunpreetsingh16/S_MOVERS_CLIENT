@@ -17,6 +17,8 @@ import {
 	CLEAR_DELETE_ERRORS,
 	UPDATE_DRIVER_INFO_FAIL,
 	UPDATE_DRIVER_INFO,
+	UPDATE_HELPER_INFO,
+	UPDATE_HELPER_INFO_FAIL,
 } from './../actions/types';
 const initialState = {
 	token: localStorage.getItem('jwt'),
@@ -68,9 +70,11 @@ export default (state = initialState, action) => {
 			};
 		case UPDATE_BOOKER_INFO:
 		case UPDATE_DRIVER_INFO:
+		case UPDATE_DRIVER_INFO:
 			return { ...state, updateErrors: null };
 		case UPDATE_BOOKER_INFO_FAIL:
 		case UPDATE_DRIVER_INFO_FAIL:
+		case UPDATE_HELPER_INFO_FAIL:
 			return { ...state, updateErrors: [...payload] };
 		case UPDATE_PASSWORD:
 			return { ...state, updatePasswordErrors: null };
