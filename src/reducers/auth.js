@@ -19,6 +19,10 @@ import {
 	UPDATE_DRIVER_INFO,
 	UPDATE_HELPER_INFO,
 	UPDATE_HELPER_INFO_FAIL,
+	FORGOT_PASSWORD,
+	FORGOT_PASSWORD_FAIL,
+	CHANGE_PASSWORD,
+	CHANGE_PASSWORD_FAIL,
 } from './../actions/types';
 const initialState = {
 	token: localStorage.getItem('jwt'),
@@ -29,6 +33,8 @@ const initialState = {
 	updateErrors: null,
 	updatePasswordErrors: null,
 	deleteErrors: null,
+	forgotPasswordErrors: null,
+	changePasswordErrors: null,
 };
 export default (state = initialState, action) => {
 	const { type, payload } = action;
@@ -70,7 +76,7 @@ export default (state = initialState, action) => {
 			};
 		case UPDATE_BOOKER_INFO:
 		case UPDATE_DRIVER_INFO:
-		case UPDATE_DRIVER_INFO:
+		case UPDATE_HELPER_INFO:
 			return { ...state, updateErrors: null };
 		case UPDATE_BOOKER_INFO_FAIL:
 		case UPDATE_DRIVER_INFO_FAIL:
@@ -98,6 +104,14 @@ export default (state = initialState, action) => {
 			return { ...state, deleteErrors: null };
 		case CLEAR_ERRORS:
 			return { ...state, errors: null, loginErrors: null };
+		case FORGOT_PASSWORD_FAIL:
+			return { ...state, forgotPasswordErrors: [...payload] };
+		case FORGOT_PASSWORD:
+			return { ...state, forgotPasswordErrors: null };
+		case CHANGE_PASSWORD:
+			return { ...state, changePasswordErrors: null };
+		case CHANGE_PASSWORD_FAIL:
+			return { ...state, changePasswordErrors: [...payload] };
 		default:
 			return state;
 	}

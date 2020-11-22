@@ -192,10 +192,16 @@ select {
 .fillColor:active {
 	color: white;
 }
+.availabilitySection {
+	width: 600px;
+}
 /*CSS IDs*/
+#changePassword {
+	width: 500px;
+	margin: 0 auto;
+}
 #profileTitle {
 	margin: 2rem auto;
-	width: 200px;
 }
 #modalBox {
 	position: fixed;
@@ -297,6 +303,11 @@ select {
 }
 /* for portrait tablets and large phones*/
 @media only screen and (max-width: 600px) {
+	#availabilityBlock {
+		display: flex;
+		flex-direction: column;
+	}
+	.availabilitySection,
 	#modalHolder {
 		width: 300px;
 	}
@@ -318,12 +329,16 @@ select {
 	#userName {
 		display: none;
 	}
+	#changePassword {
+		width: 300px;
+	}
 }
 /* for small phones*/
 @media only screen and (max-width: 500px) {
 }
 /* for smaller phones*/
 @media only screen and (max-width: 350px) {
+	.availabilitySection,
 	#modalHolder {
 		width: 250px;
 	}
@@ -340,5 +355,9 @@ select {
 	}
 	form {
 		width: 280px;
+	}
+	#changePassword {
+		width: 200px;
+		margin: 0 auto;
 	}
 }

@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { GET_DRIVERS_FAIL, GET_DRIVERS_SUCCESS } from './types';
+import {
+	GET_DRIVERS_FAIL,
+	GET_DRIVERS_SUCCESS,
+	PROVIDE_AVAILABILITY,
+	PROVIDE_AVAILABILITY_FAIL,
+} from './types';
+
+import setAuthToken from '../lib/setAuthToken';
 /*Action - GetDrivers - To fetch the drivers from database based on the data passed to it
 	Location, Date, Car Type
  */

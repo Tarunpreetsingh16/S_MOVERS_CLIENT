@@ -199,7 +199,10 @@ export const Profile = ({
 		<Loader msg='Password changed! Please login again.' />
 	) : (
 		<Fragment>
-			<div className='fontSize2_5 padding1' id='profileTitle'>
+			<div
+				className='fontSize2_5 padding1 flexDisplay justifyCenter'
+				id='profileTitle'
+			>
 				Profile
 			</div>
 			<section className='flexDisplay padding2 justifyCenter alignItemsStart updateForm'>
@@ -358,7 +361,7 @@ export const Profile = ({
 					<div className='flexDisplayColumn fontSize2_5 padding2 '>
 						<label className='fontWeight500 padding1'>Services booked</label>
 						<div className='padding1 flexDisplay alignItemsCenter'>
-							{user ? user.numberOfServices : ''} &nbsp;
+							{user ? user.totalTrips : ''} &nbsp;
 						</div>
 					</div>
 					<div className='padding2 '>

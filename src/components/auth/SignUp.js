@@ -119,6 +119,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 				id='drivingExperience'
 				className='padding1'
 				onChange={updateData}
+				min='1'
 				required
 			></input>
 			<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>
@@ -169,6 +170,7 @@ export const SignUp = ({ signUp, errors, loadUser, isAuthenticated }) => {
 					className='padding1'
 					required
 					placeholder='20/hr'
+					min='15'
 					onChange={updateData}
 				></input>
 				<h5 className='fontSize1_5 fontWeight400 colorDanger displayNone margin1_0'>

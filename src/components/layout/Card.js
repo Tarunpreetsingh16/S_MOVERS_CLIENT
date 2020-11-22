@@ -82,7 +82,9 @@ export const Card = ({ dataFromParent, typeOfUser }) => {
 					</h3>
 					<h3 className='fontSize1_5 fontWeight400'>
 						<strong className='fontSize1_5'>Location: </strong>
-						{location.charAt(0).toUpperCase() + location.slice(1)}
+						{location
+							? location.charAt(0).toUpperCase() + location.slice(1)
+							: null}
 					</h3>
 					<h3 className='fontSize1_5 fontWeight400'>
 						<strong className='fontSize1_5'>Total Services: </strong>

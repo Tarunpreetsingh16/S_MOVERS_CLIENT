@@ -34,6 +34,16 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 			</Link>
 		</ul>
 	);
+	const availability = (
+		<Link
+			to='/availability'
+			className='fontSize2_5 navBarLinks '
+			style={{ textDecoration: 'none' }}
+		>
+			<li className='colorWhite fillColor'>Availability</li>
+		</Link>
+	);
+
 	const profileLinkTo = `/${localStorage.getItem('typeOfUser')}/profile`;
 	/*Fields to show in the navbar when the user is logged in */
 	const loggedIn = (
@@ -54,6 +64,10 @@ export const NavBar = ({ isAuthenticated, logout, user }) => {
 			>
 				<li className=''>Profile</li>
 			</Link>
+			{localStorage.typeOfUser == 'driver' ||
+			localStorage.typeOfUser == 'helper'
+				? availability
+				: null}
 			<Link
 				to='/bookings'
 				className='fontSize2_5 colorWhite navBarLinks fillColor'

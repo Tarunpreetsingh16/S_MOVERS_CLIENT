@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loader from './../layout/Loader';
 //React Router
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 //Redux
 import { connect } from 'react-redux';
 import { login, loadUser } from './../../actions/auth';
@@ -153,6 +153,13 @@ export const Login = ({ loginErrors, loadUser, login, isAuthenticated }) => {
 					onClick={submitForm}
 				></input>
 			</div>
+			<Link
+				to='/forgotPassword'
+				className='fontSize2_5 navBarLinks padding2 '
+				style={{ textDecoration: 'none' }}
+			>
+				<li style={{ listStyle: 'none' }}>Forgot password?</li>
+			</Link>
 		</form>
 	);
 	return (

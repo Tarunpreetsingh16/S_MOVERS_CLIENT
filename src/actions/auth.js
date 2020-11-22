@@ -16,6 +16,10 @@ import {
 	DELETE_ACCOUNT_FAIL,
 	UPDATE_HELPER_INFO,
 	UPDATE_HELPER_INFO_FAIL,
+	FORGOT_PASSWORD,
+	FORGOT_PASSWORD_FAIL,
+	CHANGE_PASSWORD_FAIL,
+	CHANGE_PASSWORD,
 } from './types';
 import setAuthToken from '../lib/setAuthToken';
 import axios from 'axios';
@@ -342,6 +346,61 @@ export const deleteAccount = (data) => async (dispatch) => {
 			});
 			return promise;
 		}
+	}
+};
+/*Action - forgotPassword - To send a mail to a user to update the password*/
+export const forgotPassword = (data) => async (dispatch) => {
+	try {
+		let res;
+		if (data.typeOfUser === 'booker')
+			res = await axios.post('/api/bookers/forgotPassword', data);
+		else if (data.typeOfUser === 'driver')
+			res = await axios.post('/api/drivers/forgotPassword', data);
+		else if (data.typeOfUser === 'helper')
+			res = await axios.post('/api/helpers/forgotPassword', data);
+
+		dispatch({
+			type: FORGOT_PASSWORD,
+			payload: res.data,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(res);
+		});
+		return promise;
+	} catch (err) {
+		dispatch({
+			type: FORGOT_PASSWORD_FAIL,
+			payload: err.response.data.errors,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(err.response);
+		});
+		return promise;
+	}
+};
+/*Action - changePassword - To change the password*/
+export const changePassword = (data, id) => async (dispatch) => {
+	try {
+		let res;
+		res = await axios.post(`/api/bookers/changePassword/${id}`, data);
+
+		dispatch({
+			type: CHANGE_PASSWORD,
+			payload: res.data,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(res);
+		});
+		return promise;
+	} catch (err) {
+		dispatch({
+			type: CHANGE_PASSWORD_FAIL,
+			payload: err.response.data.errors,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(err.response);
+		});
+		return promise;
 	}
 };
 export const clearErrors = () => (dispatch) => {
