@@ -22,7 +22,6 @@ export const Availability = ({
 		errorMsg: '',
 		successMsg: '',
 	});
-	console.log(availability, dateUpdated);
 	const updateData = (e) => {
 		const updatedAvailability = data.availability.map((item, index) => {
 			if (e.target.attributes.day.value == index) {
@@ -87,7 +86,6 @@ export const Availability = ({
 		}
 	}, [isAuthenticated]);
 	const prevUpdatedDate = new Date(dateUpdated);
-	console.log(prevUpdatedDate);
 	const providedAvailability = (
 		<div
 			className='flexDisplayColumn availabilitySection center alignItemsCenter padding2 shadow'

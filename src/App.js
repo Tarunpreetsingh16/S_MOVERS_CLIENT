@@ -12,16 +12,15 @@ import HelperProfile from './components/helpers/Profile';
 import ForgotPasswordModal from './components/common/ForgotPasswordModal';
 import ChangePassword from './components/common/ChangePassword';
 import Availability from './components/common/Availability';
+import BookingProposal from './components/booking/BookingProposal';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //Redux
 import { loadUser } from './actions/auth';
-import { getAvailability } from './actions/booking';
 import { Provider } from 'react-redux';
 import store from './store';
 const App = () => {
 	useEffect(() => {
 		store.dispatch(loadUser());
-		store.dispatch(getAvailability());
 	});
 	return (
 		<Provider store={store}>
@@ -52,6 +51,7 @@ const App = () => {
 							component={ChangePassword}
 						/>
 						<Route exact path='/availability' component={Availability} />
+						<Route exact path='/book' component={BookingProposal} />
 					</Switch>
 				</Fragment>
 			</Router>

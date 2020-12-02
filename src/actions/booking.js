@@ -4,6 +4,8 @@ import {
 	PROVIDE_AVAILABILITY_FAIL,
 	GET_AVAILABILTIY,
 	GET_AVAILABILTIY_FAIL,
+	SEND_BOOKING_PROPOSAL,
+	SEND_BOOKING_PROPOSAL_FAIL,
 } from './types';
 
 import setAuthToken from '../lib/setAuthToken';
@@ -71,6 +73,40 @@ export const getAvailability = () => async (dispatch) => {
 	} catch (err) {
 		dispatch({
 			type: GET_AVAILABILTIY_FAIL,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(err.response);
+		});
+		return promise;
+	}
+};
+
+/*Action - getAvailability - To provide the availability
+ */
+export const bookDriver = (data) => async (dispatch) => {
+	if (localStorage.jwt && localStorage.typeOfUser) {
+		setAuthToken(localStorage.jwt);
+	}
+	const config = {
+		header: {
+			'Content-Type': 'application/json',
+		},
+	};
+	try {
+		let res;
+		res = await axios.post('api/bookers/bookDriver', data, config);
+		dispatch({
+			type: SEND_BOOKING_PROPOSAL,
+		});
+		var promise = new Promise((resolve) => {
+			resolve(res);
+		});
+		return promise;
+	} catch (err) {
+		console.log(err.response.data.errors);
+		dispatch({
+			type: SEND_BOOKING_PROPOSAL_FAIL,
+			payload: err.response.data.errors,
 		});
 		var promise = new Promise((resolve) => {
 			resolve(err.response);

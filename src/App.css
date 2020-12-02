@@ -59,6 +59,9 @@ select {
 .width50 {
 	width: 50%;
 }
+/* .bookingLocations {
+	width: 00px;
+} */
 .cardContainer {
 	margin: 2rem auto;
 	border: 3px solid #6ea4eb;
@@ -192,6 +195,7 @@ select {
 .fillColor:active {
 	color: white;
 }
+.bookingBlock,
 .availabilitySection {
 	width: 600px;
 }
@@ -303,10 +307,12 @@ select {
 }
 /* for portrait tablets and large phones*/
 @media only screen and (max-width: 600px) {
+	.bookingLocations,
 	#availabilityBlock {
 		display: flex;
 		flex-direction: column;
 	}
+	.bookingBlock,
 	.availabilitySection,
 	#modalHolder {
 		width: 300px;
@@ -338,6 +344,7 @@ select {
 }
 /* for smaller phones*/
 @media only screen and (max-width: 350px) {
+	.bookingBlock,
 	.availabilitySection,
 	#modalHolder {
 		width: 250px;

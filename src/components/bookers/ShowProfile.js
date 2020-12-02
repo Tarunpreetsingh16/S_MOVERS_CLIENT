@@ -1,7 +1,7 @@
 /*Driver Card- Component used to display the available drivers available in the system*/
 import React, { Fragment, useMemo } from 'react';
 import star from './../../images/star.png';
-
+import { Link } from 'react-router-dom';
 export const ShowProfile = (props) => {
 	const { dataFromParent } = props.location.state.dataFromParent;
 	const { typeOfUser } = props.location.state.typeOfUser;
@@ -67,7 +67,6 @@ export const ShowProfile = (props) => {
 				<h3 className='fontSize1_5'>
 					{typeOfUser === 'driver' ? 'Driver' : 'Helper'} Profile
 				</h3>
-				<div className='fontSize2_5 padding1' id='profileTitle'></div>
 				<section className='flexDisplay padding2 justifyCenter alignItemsStart profileView'>
 					<div className='flexDisplayColumn '>
 						<div id='userImage'>
@@ -81,7 +80,7 @@ export const ShowProfile = (props) => {
 						</h2>
 					</div>
 					<div>
-						<div className='flexDisplayColumn padding2'>
+						<div className='flexDisplayColumn padding2 '>
 							<h3 className='fontSize1_5 fontWeight400 padding2 '>
 								<strong className='fontSize1_5'>Location: </strong>
 								{location.charAt(0).toUpperCase() + location.slice(1)}
@@ -106,17 +105,29 @@ export const ShowProfile = (props) => {
 								</ul>
 							</div>
 						</div>
-						<div className='flexDisplayColumn'>
+						<div className='flexDisplayColumn alignItemsStart'>
 							<div>
 								<h3 className='padding2 flexDisplay alignItemsCenter'>
-									<strong className='fontSize1_5 padding2'>Rating :</strong>
+									<strong className=' padding2 fontSize1_5'>Rating :</strong>
 									<span className='fontSize1_5 fontWeight400'>
 										{rating} &nbsp;
 									</span>
 									<img src={star} style={{ width: '5%' }}></img>
 								</h3>
 							</div>
-							<button className='btn btn-theme fontSize1_5'>Book</button>
+							<Link
+								to={{
+									pathname: '/book',
+									state: {
+										city: dataFromParent.location,
+										email: dataFromParent.email,
+									},
+								}}
+								className='padding2 '
+								style={{ alignSelf: 'center' }}
+							>
+								<button className='btn btn-theme fontSize1_5 '>Book</button>
+							</Link>
 						</div>
 					</div>
 				</section>

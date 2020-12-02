@@ -1,7 +1,7 @@
 /*Driver Card- Component used to display the available drivers available in the system*/
 import React, { Fragment, useState } from 'react';
 import star from './../../images/star.png';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 export const Card = ({ dataFromParent, typeOfUser }) => {
 	/*State to redirect the page to view driver profile */
 	const [viewProfile, setViewProfile] = useState(false);
@@ -115,7 +115,17 @@ export const Card = ({ dataFromParent, typeOfUser }) => {
 							<img src={star} style={{ width: '20%' }}></img>
 						</pre>
 					</div>
-					<button className='btn btn-theme fontSize1_5'>Book</button>
+					<Link
+						to={{
+							pathname: '/book',
+							state: {
+								city: dataFromParent.location,
+								email: dataFromParent.email,
+							},
+						}}
+					>
+						<button className='btn btn-theme fontSize1_5'>Book</button>
+					</Link>
 				</div>
 			</section>
 		</Fragment>
