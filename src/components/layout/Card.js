@@ -121,6 +121,7 @@ export const Card = ({ dataFromParent, typeOfUser }) => {
 							state: {
 								city: dataFromParent.location,
 								email: dataFromParent.email,
+								fromURL: false,
 							},
 						}}
 					>

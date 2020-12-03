@@ -39,7 +39,6 @@ export const ChangePassword = (props) => {
 			errors.map((error) => {
 				if (document.getElementById(error.param)) {
 					const messageBox = document.getElementById(error.param).nextSibling;
-					console.log(error.param, error.msg);
 					messagesHack[error.param] = error.msg;
 					messageBox.classList.add('displayBlock');
 					messageBox.classList.remove('displayNone');

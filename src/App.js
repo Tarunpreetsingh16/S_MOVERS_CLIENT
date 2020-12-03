@@ -12,6 +12,7 @@ import HelperProfile from './components/helpers/Profile';
 import ForgotPasswordModal from './components/common/ForgotPasswordModal';
 import ChangePassword from './components/common/ChangePassword';
 import Availability from './components/common/Availability';
+import BookingResponse from './components/common/BookingResponse';
 import BookingProposal from './components/booking/BookingProposal';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //Redux
@@ -52,6 +53,11 @@ const App = () => {
 						/>
 						<Route exact path='/availability' component={Availability} />
 						<Route exact path='/book' component={BookingProposal} />
+						<Route
+							exact
+							path='/bookingResponse/:id/:accept'
+							component={BookingResponse}
+						/>
 					</Switch>
 				</Fragment>
 			</Router>

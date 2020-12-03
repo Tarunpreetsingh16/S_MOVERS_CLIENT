@@ -5,10 +5,13 @@ import BookingsCard from './../common/BookingsCard';
 //Redux
 import { connect } from 'react-redux';
 import { getPreviousBookings } from './../../actions/bookers';
+import { getUpComingBookings } from './../../actions/booking';
 export const Bookings = ({
 	getPreviousBookings,
 	previousBookings,
 	isAuthenticated,
+	getUpComingBookings,
+	futureBookings,
 }) => {
 	const [showPreviousBookings, setShowPreviousBookings] = useState(false);
 	const changeBookingsState = (e) => {
@@ -19,9 +22,10 @@ export const Bookings = ({
 		} else {
 			setActiveLink(false);
 			setShowPreviousBookings(false);
+			getUpComingBookings();
 		}
 	};
-
+	console.log(futureBookings);
 	useEffect(() => {
 		setActiveLink(showPreviousBookings);
 	}, []);
@@ -60,12 +64,34 @@ export const Bookings = ({
 		previousBookings != null &&
 		previousBookings.length > 0 &&
 		previousBookings.map((booking, index) => {
-			if (booking !== undefined)
+			if (booking)
 				/*If the booking is present then show it to the user by sending data to the Booking Card */
 				return (
-					<BookingsCard key={booking._id} booking={booking} index={index} />
+					<BookingsCard
+						key={booking._id}
+						booking={booking}
+						index={index}
+						dataFromParent={false}
+					/>
 				);
 		});
+	/*Display the  future booking to the user if there were any fetched form the database*/
+	const upcomingBookings =
+		futureBookings != null &&
+		futureBookings.length > 0 &&
+		futureBookings.map((booking, index) => {
+			if (booking)
+				/*If the booking is present then show it to the user by sending data to the Booking Card */
+				return (
+					<BookingsCard
+						key={booking._id}
+						booking={booking}
+						index={index}
+						dataFromParent={true}
+					/>
+				);
+		});
+
 	return !isAuthenticated ? (
 		<Redirect to='/' />
 	) : (
@@ -83,6 +109,8 @@ export const Bookings = ({
 							Start booking a service!
 						</div>
 					)
+				) : upcomingBookings ? (
+					upcomingBookings
 				) : (
 					<div
 						className='fontSize2_5'
@@ -97,9 +125,14 @@ export const Bookings = ({
 };
 Bookings.propTypes = {
 	getPreviousBookings: PropTypes.func.isRequired,
+	getUpComingBookings: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
 	previousBookings: state.bookers.previousBookings,
 	isAuthenticated: state.auth.isAuthenticated,
+	futureBookings: state.booking.bookings,
 });
-export default connect(mapStateToProps, { getPreviousBookings })(Bookings);
+export default connect(mapStateToProps, {
+	getPreviousBookings,
+	getUpComingBookings,
+})(Bookings);

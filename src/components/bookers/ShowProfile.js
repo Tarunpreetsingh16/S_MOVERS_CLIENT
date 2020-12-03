@@ -121,6 +121,7 @@ export const ShowProfile = (props) => {
 									state: {
 										city: dataFromParent.location,
 										email: dataFromParent.email,
+										fromURL: false,
 									},
 								}}
 								className='padding2 '

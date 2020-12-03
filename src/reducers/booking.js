@@ -5,11 +5,16 @@ import {
 	GET_AVAILABILTIY,
 	SEND_BOOKING_PROPOSAL,
 	SEND_BOOKING_PROPOSAL_FAIL,
+	BOOKING_RESPONSE_FAIL,
+	BOOKING_RESPONSE,
+	VIEW_UPCOMING_BOOKINGS,
 } from './../actions/types';
 const initialState = {
 	availability: [],
 	dateUpdated: null,
 	errors: null,
+	responseErrors: null,
+	bookings: null,
 };
 
 export default (state = initialState, action) => {
@@ -29,6 +34,12 @@ export default (state = initialState, action) => {
 			return { ...state, errors: null };
 		case PROVIDE_AVAILABILITY:
 		case PROVIDE_AVAILABILITY_FAIL:
+		case BOOKING_RESPONSE_FAIL:
+			return { ...state, responseErrors: [...payload] };
+		case BOOKING_RESPONSE:
+			return { ...state, responseErrors: null };
+		case VIEW_UPCOMING_BOOKINGS:
+			return { ...state, bookings: payload };
 		default:
 			return state;
 	}
