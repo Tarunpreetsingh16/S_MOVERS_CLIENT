@@ -8,6 +8,10 @@ import {
 	BOOKING_RESPONSE_FAIL,
 	BOOKING_RESPONSE,
 	VIEW_UPCOMING_BOOKINGS,
+	CANCEL_BOOKING_FAIL,
+	CANCEL_BOOKING,
+	POST_RATING,
+	POST_RATING_FAIL,
 } from './../actions/types';
 const initialState = {
 	availability: [],
@@ -40,6 +44,10 @@ export default (state = initialState, action) => {
 			return { ...state, responseErrors: null };
 		case VIEW_UPCOMING_BOOKINGS:
 			return { ...state, bookings: payload };
+		case CANCEL_BOOKING:
+		case CANCEL_BOOKING_FAIL:
+		case POST_RATING_FAIL:
+		case POST_RATING:
 		default:
 			return state;
 	}

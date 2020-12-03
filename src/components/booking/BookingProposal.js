@@ -3,18 +3,22 @@ import { provinces } from './../../lib/servicableProvinces';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bookDriver } from './../../actions/booking';
+import { bookDriver, bookHelper } from './../../actions/booking';
 import { cities } from './../../lib/servicableAreas';
 export const BookingProposal = (props) => {
 	const { bookDriver } = props;
+	const { bookHelper } = props;
 	let email = '';
 	let city = '';
+	let typeOfUser = '';
 	let fromURL = true;
 	if (props.location.state) {
 		email = props.location.state.email;
 		city = props.location.state.city;
 		fromURL = props.location.state.fromURL;
+		typeOfUser = props.location.state.typeOfUser;
 	}
+	console.log(typeOfUser, email);
 	const [pickUp, setPickUpData] = useState({
 		street: '',
 		number: '',
@@ -33,6 +37,7 @@ export const BookingProposal = (props) => {
 	});
 	const [formData, setFormData] = useState({
 		driverEmail: email,
+		helperEmail: email,
 		date: '',
 		startTime: '',
 		motive: '',
@@ -46,22 +51,42 @@ export const BookingProposal = (props) => {
 	});
 	const submitData = () => {
 		const dataToBeSubmitted = { ...formData, pickUp, drop };
-		bookDriver(dataToBeSubmitted).then((res) => {
-			if (res.status == 200) {
-				setMessages({
-					...messages,
-					error: null,
-					success:
-						'Request sent. Will inform you within 5 minutes on the status.',
-				});
-			} else {
-				setMessages({
-					...messages,
-					success: null,
-					error: 'All fields are necessary!',
-				});
-			}
-		});
+		if (typeOfUser == 'driver') {
+			bookDriver(dataToBeSubmitted).then((res) => {
+				if (res.status == 200) {
+					setMessages({
+						...messages,
+						error: null,
+						success:
+							'Request sent. Will inform you within 5 minutes on the status.',
+					});
+				} else {
+					setMessages({
+						...messages,
+						success: null,
+						error: 'All fields are necessary!',
+					});
+				}
+			});
+		} else {
+			console.log(dataToBeSubmitted);
+			bookHelper(dataToBeSubmitted).then((res) => {
+				if (res.status == 200) {
+					setMessages({
+						...messages,
+						error: null,
+						success:
+							'Request sent. Will inform you within 5 minutes on the status.',
+					});
+				} else {
+					setMessages({
+						...messages,
+						success: null,
+						error: 'All fields are necessary!',
+					});
+				}
+			});
+		}
 	};
 	const updateFormData = (e) => {
 		setFormData({
@@ -438,8 +463,11 @@ export const BookingProposal = (props) => {
 };
 BookingProposal.propTypes = {
 	bookDriver: PropTypes.func.isRequired,
+	bookHelper: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { bookDriver })(BookingProposal);
+export default connect(mapStateToProps, { bookDriver, bookHelper })(
+	BookingProposal
+);

@@ -16,7 +16,7 @@ export const AvailableHelpers = ({ helpers }) => {
 					<DriverCard
 						key={helper[0]._id}
 						dataFromParent={helper[0]}
-						index={index}
+						typeOfUser={'helper'}
 					/>
 				);
 		});

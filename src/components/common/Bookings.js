@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import BookingsCard from './../common/BookingsCard';
+import BookingsCard from './BookingsCard';
 //Redux
 import { connect } from 'react-redux';
-import { getPreviousBookings } from './../../actions/bookers';
-import { getUpComingBookings } from './../../actions/booking';
+import { getPreviousBookings } from '../../actions/bookers';
+import { getUpComingBookings } from '../../actions/booking';
 export const Bookings = ({
 	getPreviousBookings,
 	previousBookings,
@@ -38,18 +38,21 @@ export const Bookings = ({
 				.classList.remove('btn-active');
 		} else {
 			document.getElementById('upcomingBookings').classList.add('btn-active');
-			document.getElementById('prevBookings').classList.remove('btn-active');
+			if (localStorage.typeOfUser == 'booker')
+				document.getElementById('prevBookings').classList.remove('btn-active');
 		}
 	};
 	const buttons = (
 		<div className='flexDisplay justifyCenter'>
-			<button
-				className='btn fontSize1_5 margin2 btn-theme colorWhite'
-				id='prevBookings'
-				onClick={changeBookingsState}
-			>
-				Previous Bookings
-			</button>
+			{localStorage.typeOfUser == 'booker' ? (
+				<button
+					className='btn fontSize1_5 margin2 btn-theme colorWhite'
+					id='prevBookings'
+					onClick={changeBookingsState}
+				>
+					Previous Bookings
+				</button>
+			) : null}
 			<button
 				className='btn fontSize1_5 margin2 btn-theme colorWhite'
 				id='upcomingBookings'

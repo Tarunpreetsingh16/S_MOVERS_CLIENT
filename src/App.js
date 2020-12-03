@@ -6,7 +6,7 @@ import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import BookerProfile from './components/bookers/Profile';
 import ShowProfile from './components/bookers/ShowProfile';
-import Bookings from './components/bookers/Bookings';
+import Bookings from './components/common/Bookings';
 import DriverProfile from './components/drivers/Profile';
 import HelperProfile from './components/helpers/Profile';
 import ForgotPasswordModal from './components/common/ForgotPasswordModal';
@@ -55,7 +55,7 @@ const App = () => {
 						<Route exact path='/book' component={BookingProposal} />
 						<Route
 							exact
-							path='/bookingResponse/:id/:accept'
+							path='/bookingResponse/:id/:accept/:typeOfUser'
 							component={BookingResponse}
 						/>
 					</Switch>

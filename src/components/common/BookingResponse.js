@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export const BookingResponse = (props) => {
 	const accept = props.match.params.accept;
 	const id = props.match.params.id;
+	const typeOfUser = props.match.params.typeOfUser;
 	const { bookingResponse } = props;
 	const [mount, setMount] = useState(false);
 	/*State to update the error messages */
@@ -14,7 +15,7 @@ export const BookingResponse = (props) => {
 	});
 	useEffect(() => {
 		if (!mount) {
-			bookingResponse({ accept, id }).then((res) => {
+			bookingResponse({ accept, id, typeOfUser }).then((res) => {
 				if (res.status == 200) {
 					if (accept == 'true')
 						setMessages({

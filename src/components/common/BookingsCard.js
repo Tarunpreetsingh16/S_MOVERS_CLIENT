@@ -1,9 +1,78 @@
-import React from 'react';
-
-export const BookingsCard = ({ booking, dataFromParent }) => {
+import React, { useState } from 'react';
+import {
+	cancelBooking,
+	getUpComingBookings,
+	postRating,
+} from './../../actions/booking';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getPreviousBookings } from '../../actions/bookers';
+export const BookingsCard = ({
+	booking,
+	dataFromParent,
+	cancelBooking,
+	postRating,
+	getPreviousBookings,
+	getUpComingBookings,
+}) => {
 	//dataFromParent = > false - from previous bookings
 	//	true - from upcoming bookings
-	console.log(booking);
+	//rating section from 1 to 5
+	const rates = [1, 2, 3, 4, 5];
+	const [rating, setRating] = useState(rates[rates.length - 1]);
+	const deleteBooking = () => {
+		cancelBooking(String(booking._id), booking.bookerEmail).then((res) => {
+			if (res.status == 200) {
+				getUpComingBookings();
+			}
+		});
+	};
+	const postReview = () => {
+		postRating(String(booking._id), rating).then((res) => {
+			if (res.status == 200) {
+				getPreviousBookings();
+			}
+		});
+	};
+	const updateData = (e) => {
+		setRating(e.target.value);
+	};
+	const giveRating = (
+		<div>
+			<div className='fieldSet flexDisplayColumn fontSize2_5 alignItemsCenter padding2'>
+				<label htmlFor='rating' className='fontWeight500 '>
+					Rating
+				</label>
+				<select
+					name='rating'
+					id='rating'
+					className='padding1'
+					value={rating}
+					onChange={updateData}
+					style={{ width: '50px' }}
+				>
+					{rates.map((rate) => (
+						<option
+							key={rate}
+							value={rate}
+							name='carType'
+							className='fontSize1_5'
+						>
+							{rate}
+						</option>
+					))}
+				</select>
+			</div>
+			<div>
+				<input
+					type='submit'
+					className='btn padding1 fontSize1_5 btn-theme flexDisplay center'
+					value='Post Rating'
+					onClick={postReview}
+				></input>
+			</div>
+		</div>
+	);
 	return (
 		<section className='flexDisplayColumn cardContainer padding2 pointer'>
 			<h3 className='fontSize1_5 fontWeight400'>
@@ -49,11 +118,29 @@ export const BookingsCard = ({ booking, dataFromParent }) => {
 						type='submit'
 						className='btn padding1 fontSize1_5 btn-danger flexDisplay center'
 						value='Cancel Booking'
+						onClick={deleteBooking}
 					></input>
 				</div>
-			) : null}
+			) : booking.rated ? (
+				<h3 className='fontSize1_5 fontWeight400'>
+					<strong className='fontSize1_5'>Rating: </strong>
+					{booking.rating}
+				</h3>
+			) : (
+				giveRating
+			)}
 		</section>
 	);
 };
+BookingsCard.propTypes = {
+	cancelBooking: PropTypes.func.isRequired,
+	postRating: PropTypes.func.isRequired,
+	getPreviousBookings: PropTypes.func.isRequired,
+};
 
-export default BookingsCard;
+export default connect(null, {
+	cancelBooking,
+	postRating,
+	getPreviousBookings,
+	getUpComingBookings,
+})(BookingsCard);
