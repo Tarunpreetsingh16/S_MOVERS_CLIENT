@@ -14,6 +14,7 @@ export const Bookings = ({
 	futureBookings,
 }) => {
 	const [showPreviousBookings, setShowPreviousBookings] = useState(false);
+	const [mount, setMount] = useState(false);
 	const changeBookingsState = (e) => {
 		if (e.target.id === 'prevBookings') {
 			setActiveLink(true);
@@ -25,10 +26,12 @@ export const Bookings = ({
 			getUpComingBookings();
 		}
 	};
-	console.log(futureBookings);
 	useEffect(() => {
-		setActiveLink(showPreviousBookings);
-	}, []);
+		setMount(true);
+	});
+	useEffect(() => {
+		if (mount) setActiveLink(showPreviousBookings);
+	}, [mount]);
 
 	const setActiveLink = (value) => {
 		if (value) {
