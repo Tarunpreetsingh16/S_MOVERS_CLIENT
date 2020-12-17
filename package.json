@@ -26,8 +26,7 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"client": "npm start --prefix ../client",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+		"client": "npm start --prefix ../client"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -46,5 +45,6 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	}
+	},
+	"proxy": "http://localhost:5000"
 }
